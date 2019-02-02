@@ -58,3 +58,11 @@ void DriveTrain::Periodic() {
 void DriveTrain::TankDrive(double left, double right) {
     differentialDrive->TankDrive(left, right);
 }
+
+void DriveTrain::VelocityArcade(double xSpeed, double zRotation, bool squareinputs) {
+
+}
+
+void DriveTrain::VelocityTankDrive(double left, double right, bool squareinputs) {
+    
+}
