@@ -11,9 +11,9 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
 #include <string>
- #include <thread>
+#include <thread>
 #include <chrono>
-
+#include  <cscore.h>
 ExampleSubsystem Robot::m_subsystem;
 OI Robot::m_oi;
 
@@ -22,15 +22,8 @@ void Robot::RobotInit() {
   m_chooser.AddOption("My Auto", &m_myAuto);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-int cWidth = 320;
-	int cHeight = 240;
-	int cExposure = 17;
-	int cWhiteBalance = 5100;
-  cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
-
-   camera.SetResolution(cWidth,cHeight);
-	 camera.SetExposureManual(cExposure);
-	 camera.SetWhiteBalanceManual(cWhiteBalance);
+std::thread visionThread(VisionProcessing::VisionThread);
+visionThread.detach();
 
 }
 
@@ -43,8 +36,7 @@ int cWidth = 320;
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-   cvSink.GrabFrame(source);
-      cvSink.PutFrame(source);
+  
 }
 
 /**
