@@ -34,7 +34,10 @@ private:
 	std::shared_ptr<rev::CANSparkMax> sparkMaxLeftFollow;
 	std::shared_ptr<rev::CANSparkMax> sparkMaxRightLead;
 	std::shared_ptr<rev::CANSparkMax> sparkMaxRightFollow;
-	
+	double FPStoRPM(double fps);
+	double RPMtoFPS(double rpm);
+	double kGearRatio;
+	double kWheelDiameter;
 public:
 	DriveTrain();
 	void InitDefaultCommand() override;
@@ -46,7 +49,7 @@ public:
 	void StopMotors(void);
 	void VelocityArcade(double xSpeed, double zRotation, bool squareinputs = true);
 	void VelocityTankDrive(double left, double right, bool squareinputs = true);
-
+	double GetVelocity();	
 
 };
 
