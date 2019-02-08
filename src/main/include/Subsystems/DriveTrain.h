@@ -34,6 +34,7 @@ private:
 	std::shared_ptr<rev::CANSparkMax> sparkMaxLeftFollow;
 	std::shared_ptr<rev::CANSparkMax> sparkMaxRightLead;
 	std::shared_ptr<rev::CANSparkMax> sparkMaxRightFollow;
+	std::shared_ptr<frc::ADXRS450_Gyro> analogGyro;
 	double FPStoRPM(double fps);
 	double RPMtoFPS(double rpm);
 	double kGearRatio;
@@ -50,6 +51,10 @@ public:
 	void VelocityArcade(double xSpeed, double zRotation, bool squareinputs = true);
 	void VelocityTankDrive(double left, double right, bool squareinputs = true);
 	double GetVelocity();	
+
+	// Gyro methods
+	void resetGyro()  { analogGyro->Reset();}
+	double getGyroAngle() {return analogGyro->GetAngle();}
 
 };
 
