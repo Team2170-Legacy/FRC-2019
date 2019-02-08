@@ -1,5 +1,5 @@
 #include "VisionProcessing.h"
-#include "GripPipeline.cpp"
+//#include "GripPipeline.cpp"  BAD
 #include "GripPipeline.h"
 #include <vector>
 #include <string>
@@ -7,35 +7,36 @@
 #include <chrono>
 
 
+
 VisionProcessing::VisionProcessing() {
 	// TODO Auto-generated constructor stub
 
 }
 
-VisionProcessing::~VisionProcessing() {
+//VisionProcessing::~VisionProcessing() {
 	// TODO Auto-generated destructor stub
-}
+//}
 
 void VisionProcessing::VisionThread() {
-//	int status = 1;
-//	int* status_ptr = &status;
+grip::GripPipeline pipeline;
 
-	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
+
+	cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
 
 int cWidth = 320;
 	int cHeight = 240;
 	int cExposure = 17;
 	int cWhiteBalance = 5100;
-  cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
+  //cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
 
    camera.SetResolution(cWidth,cHeight);
 	 camera.SetExposureManual(cExposure);
 	 camera.SetWhiteBalanceManual(cWhiteBalance);
 
-	cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo("USB Camera 0");
+	cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo("USB Camera 0");
 
 
-	cs::CvSource outputStreamStd = CameraServer::GetInstance()->PutVideo("Cam0", 320, 240);
+	cs::CvSource outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Cam0", 320, 240);
 
 
 
@@ -55,7 +56,7 @@ int cWidth = 320;
 
 	//	uint64_t grab_Frame_Status = -1;
 
-		grab_Frame_Status = cvSink.GrabFrame(source);
+		cvSink.GrabFrame(source);
 //		std::cout << "Grab Frame Status: " << grab_Frame_Status << std::endl;
 
 		//if (grab_Frame_Status == 0 && source.rows > 0) {
@@ -63,9 +64,9 @@ int cWidth = 320;
 
 			//usleep(0100000);
 
-			GripPipeline.Process(source);
+			pipeline.Process(source);
 
-			contours_ptr = GripPipeline.GetFilterContoursOutput();
+			contours_ptr = pipeline.GetFilterContoursOutput();
 			contours = *contours_ptr;
 
 	//		cvtColor(source, output, cv::COLOR_BGR2RGB);
@@ -122,5 +123,5 @@ int cWidth = 320;
 	
 			}
 	} 
-}; 
+}
 
