@@ -13,9 +13,9 @@ VisionProcessing::VisionProcessing() {
 
 }
 
-//VisionProcessing::~VisionProcessing() {
+VisionProcessing::~VisionProcessing() {
 	// TODO Auto-generated destructor stub
-//}
+}
 
 void VisionProcessing::VisionThread() {
 grip::GripPipeline pipeline;
@@ -81,7 +81,7 @@ int cWidth = 320;
 					contour2 = contours[1];
 					r1 = cv::boundingRect(contour1);
 					r2 = cv::boundingRect(contour2);
-					cv::Point tl1 = r1.tl();	//Rect_::x and Rect_::y
+					cv::Point tl1 = r1.tl();	//eRect_::x and Rect_::y
 					cv::Point br1 = r1.br();
 					cv::Point tl2 = r2.tl();	//Rect_::x and Rect_::y
 					cv::Point br2 = r2.br();
