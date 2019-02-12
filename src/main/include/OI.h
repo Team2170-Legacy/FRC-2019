@@ -22,6 +22,10 @@ private:
 	
 	
 	
+	
+	
+	
+	
 	std::shared_ptr<frc::Joystick> pushbuttonPanel;
 	std::shared_ptr<frc::Joystick> operatorJoystick;
 	std::shared_ptr<frc::Joystick> driverJoystick;
