@@ -22,6 +22,10 @@
 Elevator::Elevator() : frc::Subsystem("Elevator"),
     kPVinner(frc::Preferences::GetInstance()->GetDouble("kPVinner", 1.0)),
     kVMaxInner(frc::Preferences::GetInstance()->GetDouble("kVMaxInner", 1.0)),
+    kP_Inner(frc::Preferences::GetInstance()->GetDouble("kP Inner", 0.0)),
+    kD_Inner(frc::Preferences::GetInstance()->GetDouble("kD Inner", 0.0)),
+    kI_Inner(frc::Preferences::GetInstance()->GetDouble("kI Inner", 0.0)),
+    kF_Inner(frc::Preferences::GetInstance()->GetDouble("kF Inner", 0.0)),
     kPVouter(frc::Preferences::GetInstance()->GetDouble("kPVouter", 1.0)),
     kVMaxOuter(frc::Preferences::GetInstance()->GetDouble("kVMaxOuter", 1.0)),
     kPVrear(frc::Preferences::GetInstance()->GetDouble("kPVrear", 1.0)),
@@ -39,6 +43,11 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonInnerFront->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
     talonInnerFront->SetSensorPhase(true);
     talonInnerFront->SetSelectedSensorPosition(0, 0);
+    talonInnerFront->Config_kP(0, kP_Inner);
+    talonInnerFront->Config_kI(0, kI_Inner);
+    talonInnerFront->Config_kD(0, kD_Inner);
+    talonInnerFront->Config_kF(0, kF_Inner);
+
 
     talonRear->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
     talonRear->SetSensorPhase(true);

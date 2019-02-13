@@ -16,6 +16,8 @@
 #include "rev/CANSparkMax.h"
 #include "ctre/Phoenix.h"
 
+#define ENCODER_CNTS_PER_REV 4096
+
 /**
  *
  *
@@ -36,6 +38,11 @@ private:
 	const double kTs = 0.02;		// 20 msec tick for periodic
 	const double kPVinner;
 	const double kVMaxInner;		// inner elevator Vmax
+	const double kP_Inner;
+	const double kD_Inner;
+	const double kI_Inner;
+	const double kF_Inner;
+
 	const double kPVouter;
 	const double kVMaxOuter;		// outer elevator Vmax
 	const double kPVrear;
