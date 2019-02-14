@@ -64,7 +64,7 @@ Children:
           default: '2'
           name: CAN ID
           validators: &id004 [CANID]
-          value: '7'
+          value: '9'
       Base: Talon SRX
       Name: Talon Inner Front
     - Children: []
@@ -102,7 +102,7 @@ Children:
           default: '2'
           name: CAN ID
           validators: *id004
-          value: '5'
+          value: '7'
       Base: Talon SRX
       Name: TalonLeftArm
     - Children: []

@@ -18,6 +18,19 @@
 
 #define ENCODER_CNTS_PER_REV 4096
 
+#define INNER_MAX_RPM 18730
+#define INNNER_GEAR_RATIO 49.0
+#define INNER_SPROCKET_PITCH 1.432		// chain in
+
+#define OUTER_MAX_RPM 5676
+#define OUTER_GEAR_RATIO 14.2
+#define OUTER_SPROCKET_PITCH 1.432		// chain inches per rotation
+
+#define REAR_MAX_RPM 5840
+#define REAR_GEAR_RATIO 81.0
+#define REAR_SMALL_SPROCKET_PITCH 1.432
+#define REAR_LARGE_SPROKET_PITCH 1.751
+#define REAR_DRUM_DIAMETER 1.22
 /**
  *
  *
