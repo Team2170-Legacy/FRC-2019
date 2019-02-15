@@ -14,6 +14,7 @@
 #include "frc/commands/Subsystem.h"
 #include "frc/WPILib.h"
 #include "rev/CANSparkMax.h"
+#include "hal/HAL.h"
 
 /**
  *
@@ -45,8 +46,11 @@ private:
 	// PID Gains for closed-loop velocity control
 	double kP = 0/*4.0e-4*/, kI = 0, kD = 0, kIz = 0, kFF = 1.8e-4, kMaxOutput = 1, kMinOutput = -1;
 	
+	// Max RPM for motors
+	const double maxRPM = 5600;
+
 	// PID Gains for closed-loop velocity control FOR VISION 
-	double kP_Vision = 30;
+	const double kP_Vision;
 
 public:
 	DriveTrain();
@@ -58,8 +62,10 @@ public:
 	void TankDrive(double left, double right);
 	void ArcadeDrive(double xSpeed, double zRotation);
 	void StopMotors(void);
-	void VelocityArcade(double xSpeed, double zRotation, bool squareinputs = true);
-	void VelocityTankDrive(double left, double right, bool squareinputs = true);
+	void VelocityArcade(double xSpeed, double zRotation, bool squaredInputs = true);
+	void VelocityTankDrive(double left, double right, bool squaredInputs = true);
+	void ClosedLoopVelocityControl(double speed);
+	void TankDriveVelocityError(double velocity, double error);
 	double GetVelocity();	
 
 	// Gyro methods
