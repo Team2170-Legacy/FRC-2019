@@ -17,6 +17,9 @@
 #include "Commands/ElevatorInnerPos.h"
 #include "Commands/ElevatorOutterPos.h"
 #include "Commands/ElevatorRearPos.h"
+#include "Commands/IntakeDown.h"
+#include "Commands/IntakeToggle.h"
+#include "Commands/IntakeUp.h"
 #include "Commands/TeleopDrive.h"
 #include "Commands/TeleopElevator.h"
 #include "Commands/TeleopIntake.h"
@@ -33,6 +36,8 @@ OI::OI() {
     
     operatorJoystick.reset(new frc::Joystick(1));
     
+    joystickButtonToggleIntake.reset(new frc::JoystickButton(operatorJoystick.get(), 3));
+    joystickButtonToggleIntake->WhenPressed(new IntakeToggle());
     joystickButtonOuttake.reset(new frc::JoystickButton(operatorJoystick.get(), 2));
     joystickButtonOuttake->WhileHeld(new TeleopOuttake());
     joystickButtonIntake.reset(new frc::JoystickButton(operatorJoystick.get(), 1));
