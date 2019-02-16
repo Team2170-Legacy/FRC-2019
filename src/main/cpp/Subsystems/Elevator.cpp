@@ -45,6 +45,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
 
     // setup elevator motors
     talonInnerFront->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+    talonInnerFront->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_FeedbackConnector, LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 0);
     talonInnerFront->SetSensorPhase(true);
     talonInnerFront->SetSelectedSensorPosition(0, 0);
     talonInnerFront->Config_kP(0, kP_Inner);
@@ -52,22 +53,25 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonInnerFront->Config_kD(0, kD_Inner);
     talonInnerFront->Config_kF(0, kF_Inner);
 
-    // Config PID gains for Spark Max Outer
-    rev::CANPIDController pidControllerOuter = sparkMaxOuter->GetPIDController();
-    pidControllerOuter.SetP(kP_Outer);
-    pidControllerOuter.SetI(kI_Outer);
-    pidControllerOuter.SetD(kD_Outer);
-    pidControllerOuter.SetFF(kF_Outer);
- 
-
     talonRear->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
     talonRear->SetSensorPhase(true);
     talonRear->SetSelectedSensorPosition(0, 0);
 
     pidOuter.reset(new rev::CANPIDController(sparkMaxOuter->GetPIDController()));
+    sparkMaxOuterEncoder.reset(new rev::CANEncoder(sparkMaxOuter->GetEncoder()));
+
+    // Config PID gains for Spark Max Outer
+    pidOuter->SetOutputRange(kMinOutput, kMaxOutput);
+    pidOuter->SetP(kP_Outer);
+    pidOuter->SetI(kI_Outer);
+    pidOuter->SetD(kD_Outer);
+    pidOuter->SetFF(kF_Outer);
 
     // set scaling factor for position (since encoder is in motor)
-    sparkMaxOuter->GetEncoder().SetPositionConversionFactor(OUTER_GEAR_RATIO * OUTER_SPROCKET_PITCH);
+    sparkMaxOuterEncoder->SetPositionConversionFactor(OUTER_GEAR_RATIO * OUTER_SPROCKET_PITCH);
+
+    // Set encoder to 0 position
+    sparkMaxOuterEncoder->SetPosition(0);
 }
 
 void Elevator::InitDefaultCommand() {
@@ -191,10 +195,22 @@ void Elevator::StopOuter() {
     mOuterPosCmd = GetOuterPos();
 }
 
-double inchesToRotationsOuter(double inches){
+double Elevator::inchesToRotationsOuter(double inches){
     return inches / OUTER_SPROCKET_PITCH * OUTER_GEAR_RATIO;
 }
 
-double rotationsToInchesOuter(double rotations) {
+double Elevator::rotationsToInchesOuter(double rotations) {
     return rotations * OUTER_SPROCKET_PITCH;
+}
+
+double Elevator::GetInnerPosInches() {
+    return GetInnerPos() / ENCODER_CNTS_PER_REV * INNER_SPROCKET_PITCH;
+}
+
+double Elevator::GetRearPosInches() {
+    // Implement this later!
+}
+
+double Elevator::GetOuterPosInches() {
+    return GetOuterPos();   // No need for math here because we have the scale factor
 }

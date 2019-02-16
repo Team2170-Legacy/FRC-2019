@@ -62,12 +62,17 @@ private:
 	const double kI_Outer;
 	const double kF_Outer;
 
+	const double kMaxOutput = 1, kMinOutput = -1;
+
 	const double kPVouter;
 	const double kVMaxOuter;		// outer elevator Vmax
 	const double kPVrear;
 	const double kVMaxRear;			// rear elevator Vmax
+
 	std::shared_ptr<rev::CANSparkMax> sparkMaxOuter;
+	std::shared_ptr<rev::CANEncoder> sparkMaxOuterEncoder;
 	std::shared_ptr<rev::CANPIDController> pidOuter;
+
 	double mInnerPosCmd = 0.0;
 	double mOuterPosCmd = 0.0;
 	double mRearPosCmd = 0.0;
@@ -82,7 +87,9 @@ private:
 	double GetInnerPos() { return talonInnerFront->GetSelectedSensorPosition(0);}
 	double GetRearPos() { return talonRear->GetSelectedSensorPosition(0);}
 	double GetOuterPos() { return sparkMaxOuter->GetEncoder().GetPosition();}
-
+	double GetInnerPosInches();
+	double GetRearPosInches();
+	double GetOuterPosInches();
 	double inchesToRotationsOuter(double inches);
 	double rotationsToInchesOuter(double rotations);
 
