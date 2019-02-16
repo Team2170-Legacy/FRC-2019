@@ -43,6 +43,7 @@ void TeleopDrive::Execute()
     case DriveMode::tankDriveVelocity:
         break;
     case DriveMode::tankDriveVoltage:
+        Robot::driveTrain->TankDrive(yAxis, yAxis);
         break;
     case DriveMode::arcadeDriveVoltage:
         Robot::driveTrain->ArcadeDrive(yAxis, xAxis);
