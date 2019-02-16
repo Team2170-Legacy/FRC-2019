@@ -26,6 +26,10 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     kD_Inner(frc::Preferences::GetInstance()->GetDouble("kD Inner", 0.0)),
     kI_Inner(frc::Preferences::GetInstance()->GetDouble("kI Inner", 0.0)),
     kF_Inner(frc::Preferences::GetInstance()->GetDouble("kF Inner", 0.0)),
+    kP_Outer(frc::Preferences::GetInstance()->GetDouble("kP Outer", 0.0)),
+    kD_Outer(frc::Preferences::GetInstance()->GetDouble("kD Outer", 0.0)),
+    kI_Outer(frc::Preferences::GetInstance()->GetDouble("kI Outer", 0.0)),
+    kF_Outer(frc::Preferences::GetInstance()->GetDouble("kF Outer", 0.0)),
     kPVouter(frc::Preferences::GetInstance()->GetDouble("kPVouter", 1.0)),
     kVMaxOuter(frc::Preferences::GetInstance()->GetDouble("kVMaxOuter", 1.0)),
     kPVrear(frc::Preferences::GetInstance()->GetDouble("kPVrear", 1.0)),
@@ -180,8 +184,8 @@ void Elevator::StopOuter() {
     mOuterPosCmd = GetOuterPos();
 }
 
-double inToRotationsOuter(double inches){
-    return inches / OUTER_SPROCKET_PITCH;
+double inchesToRotationsOuter(double inches){
+    return inches / OUTER_SPROCKET_PITCH * OUTER_GEAR_RATIO;
 }
 
 double rotationsToInchesOuter(double rotations) {

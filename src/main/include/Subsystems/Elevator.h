@@ -57,6 +57,10 @@ private:
 	const double kD_Inner;
 	const double kI_Inner;
 	const double kF_Inner;
+	const double kP_Outer;
+	const double kD_Outer;
+	const double kI_Outer;
+	const double kF_Outer;
 
 	const double kPVouter;
 	const double kVMaxOuter;		// outer elevator Vmax
@@ -79,7 +83,7 @@ private:
 	double GetRearPos() { return talonRear->GetSelectedSensorPosition(0);}
 	double GetOuterPos() { return sparkMaxOuter->GetEncoder().GetPosition();}
 
-	double inToRotationsOuter(double inches);
+	double inchesToRotationsOuter(double inches);
 	double rotationsToInchesOuter(double rotations);
 
 public:
