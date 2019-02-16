@@ -26,8 +26,11 @@ private:
 	
 	
 	
+	
+	
 	std::shared_ptr<frc::Joystick> pushbuttonPanel;
 	std::shared_ptr<frc::Joystick> operatorJoystick;
+	std::shared_ptr<frc::JoystickButton> joystickButtonToggleIntake;
 	std::shared_ptr<frc::JoystickButton> joystickButtonOuttake;
 	std::shared_ptr<frc::JoystickButton> joystickButtonIntake;
 	std::shared_ptr<frc::Joystick> driverJoystick;
