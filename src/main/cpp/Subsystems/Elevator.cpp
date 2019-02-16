@@ -52,6 +52,13 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonInnerFront->Config_kD(0, kD_Inner);
     talonInnerFront->Config_kF(0, kF_Inner);
 
+    // Config PID gains for Spark Max Outer
+    rev::CANPIDController pidControllerOuter = sparkMaxOuter->GetPIDController();
+    pidControllerOuter.SetP(kP_Outer);
+    pidControllerOuter.SetI(kI_Outer);
+    pidControllerOuter.SetD(kD_Outer);
+    pidControllerOuter.SetFF(kF_Outer);
+ 
 
     talonRear->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
     talonRear->SetSensorPhase(true);
