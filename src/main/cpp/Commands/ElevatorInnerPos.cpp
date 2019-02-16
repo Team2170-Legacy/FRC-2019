@@ -36,7 +36,14 @@ void ElevatorInnerPos::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool ElevatorInnerPos::IsFinished() {
-    return false;
+    if (m_instant) {
+        return true;
+    }
+    else {
+        if (Robot::elevator->InnerAtPosition()) {
+            return true;
+        }
+    }
 }
 
 // Called once after isFinished returns true

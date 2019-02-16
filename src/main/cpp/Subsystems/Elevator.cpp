@@ -54,6 +54,9 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonRear->SetSelectedSensorPosition(0, 0);
 
     pidOuter.reset(new rev::CANPIDController(sparkMaxOuter->GetPIDController()));
+
+    // set scaling factor for position (since encoder is in motor)
+    sparkMaxOuter->GetEncoder().SetPositionConversionFactor(OUTER_GEAR_RATIO * OUTER_SPROCKET_PITCH);
 }
 
 void Elevator::InitDefaultCommand() {
@@ -129,6 +132,36 @@ void Elevator::SetRearPosition() {
     talonRear->Set(ControlMode::Position, cmd * kTs);
 }
 
+bool Elevator::InnerAtPosition() {
+    bool atPositionWithDeadband;
+
+    if (std::abs(mRearPosCmd - GetInnerPos()) < 0.05 && std::abs(mRearPosCmd - GetInnerPos()) >= 0) {
+        atPositionWithDeadband = true;
+    }
+
+    return atPositionWithDeadband;
+}
+
+bool Elevator::OuterAtPosition() {
+    bool atPositionWithDeadband;
+
+    if (std::abs(mOuterPosCmd - GetOuterPos()) < 0.05 && std::abs(mOuterPosCmd - GetOuterPos()) >= 0) {
+        atPositionWithDeadband = true;
+    }
+    
+    return atPositionWithDeadband;
+}
+
+bool Elevator::RearAtPosition() {
+    bool atPositionWithDeadband;
+
+    if (std::abs(mRearPosCmd - GetRearPos()) < 0.05 && std::abs(mRearPosCmd - GetRearPos()) >= 0) {
+        atPositionWithDeadband = true;
+    }
+    
+    return atPositionWithDeadband;
+}
+
 void Elevator::StopAllElevators() {
     StopInner();
     StopOuter();
@@ -145,4 +178,12 @@ void Elevator::StopRear() {
 
 void Elevator::StopOuter() {
     mOuterPosCmd = GetOuterPos();
+}
+
+double inToRotationsOuter(double inches){
+    return inches / OUTER_SPROCKET_PITCH;
+}
+
+double rotationsToInchesOuter(double rotations) {
+    return rotations * OUTER_SPROCKET_PITCH;
 }
