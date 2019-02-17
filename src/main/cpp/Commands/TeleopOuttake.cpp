@@ -29,7 +29,7 @@ void TeleopOuttake::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TeleopOuttake::Execute() {
-
+    Robot::intake->OuttakeOn();
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -39,11 +39,11 @@ bool TeleopOuttake::IsFinished() {
 
 // Called once after isFinished returns true
 void TeleopOuttake::End() {
-
+    Robot::intake->IntakeOff();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void TeleopOuttake::Interrupted() {
-
+    End();
 }
