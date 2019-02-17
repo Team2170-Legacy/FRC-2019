@@ -38,8 +38,9 @@ private:
 	std::shared_ptr<frc::ADXRS450_Gyro> analogGyro;
 	std::shared_ptr<rev::CANPIDController> pidControllerL;
 	std::shared_ptr<rev::CANPIDController> pidControllerR;
-	double FPStoRPM(double fps);
-	double RPMtoFPS(double rpm);
+	std::shared_ptr<rev::CANEncoder> encoderControllerL;
+	std::shared_ptr<rev::CANEncoder> encoderControllerR;
+
 	const double kGearRatio = 5.95;
 	const double kWheelDiameter;
 
@@ -48,6 +49,7 @@ private:
 	
 	// Max RPM for motors
 	const double maxRPM = 5600;
+	const double maxFeetPerSec = 18.0;
 
 	// PID Gains for closed-loop velocity control FOR VISION 
 	const double kP_Vision;
