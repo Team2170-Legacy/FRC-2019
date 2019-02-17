@@ -86,7 +86,7 @@ void Elevator::InitDefaultCommand() {
 
 void Elevator::Periodic() {
     // Put code here to be run every loop
-    SetElevatorPositions();
+    ControlElevatorPositions();
 
     // put elevator positions on smartdash
     frc::SmartDashboard::PutNumber("Inner Elevator", GetInnerPosInches());
@@ -102,13 +102,13 @@ void Elevator::Periodic() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-void Elevator::SetElevatorPositions() {
-    SetInnerPosition();
-    SetOuterPosition();
-    SetRearPosition();
+void Elevator::ControlElevatorPositions() {
+    ControlInnerPosition();
+    ControlOuterPosition();
+    ControlRearPosition();
 }
 
-void Elevator::SetInnerPosition() {
+void Elevator::ControlInnerPosition() {
     double cmd = kPVinner * (mInnerPosCmd - GetInnerPos());
 
     if (cmd > kVMaxInner) {
@@ -121,7 +121,7 @@ void Elevator::SetInnerPosition() {
     talonInnerFront->Set(ControlMode::Position, cmd * kTs);
 }
 
-void Elevator::SetOuterPosition() {
+void Elevator::ControlOuterPosition() {
     double cmd = kPVouter * (mOuterPosCmd - GetOuterPos());
 
     if (cmd > kVMaxOuter) {
@@ -134,7 +134,7 @@ void Elevator::SetOuterPosition() {
     pidOuter->SetReference(cmd * kTs, rev::ControlType::kPosition);
 }
 
-void Elevator::SetRearPosition() {
+void Elevator::ControlRearPosition() {
     double cmd = kPVrear * (mRearPosCmd - GetRearPos());
 
     if (cmd > kVMaxRear) {
@@ -213,4 +213,14 @@ double Elevator::GetRearPosInches() {
 
 double Elevator::GetOuterPosInches() {
     return GetOuterPos();   // No need for math here because we have the scale factor
+}
+
+double Elevator::inchesToCountsInner(double inches)
+{
+    return (inches / INNER_SPROCKET_PITCH * INNNER_GEAR_RATIO * ENCODER_CNTS_PER_REV);
+}
+
+double Elevator::countsToInchesInner(double counts)
+{
+    return (counts / ENCODER_CNTS_PER_REV / INNNER_GEAR_RATIO * INNER_SPROCKET_PITCH);
 }
