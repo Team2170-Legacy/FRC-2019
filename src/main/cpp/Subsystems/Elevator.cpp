@@ -24,8 +24,8 @@
 Elevator::Elevator() : frc::Subsystem("Elevator"),
     kPVinner(frc::Preferences::GetInstance()->GetDouble("kPVinner", 1.0)),
     kVMaxInner(frc::Preferences::GetInstance()->GetDouble("kVMaxInner", 1.0)),
-    kP_Inner(frc::Preferences::GetInstance()->GetDouble("kP Inner", 0.0)),
-    kD_Inner(frc::Preferences::GetInstance()->GetDouble("kD Inner", 0.0)),
+    kP_Inner(frc::Preferences::GetInstance()->GetDouble("kP Inner", 6.0)),
+    kD_Inner(frc::Preferences::GetInstance()->GetDouble("kD Inner", 600.0)),
     kI_Inner(frc::Preferences::GetInstance()->GetDouble("kI Inner", 0.0)),
     kF_Inner(frc::Preferences::GetInstance()->GetDouble("kF Inner", 0.0)),
     kP_Outer(frc::Preferences::GetInstance()->GetDouble("kP Outer", 0.0)),
@@ -58,7 +58,6 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonInnerFront->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_FeedbackConnector, LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 0);
     talonInnerFront->SetSensorPhase(false);
     talonInnerFront->SetSelectedSensorPosition(0, 0);
-    printf("Kp %f\n", kP_Inner);
     talonInnerFront->Config_kP(0, kP_Inner);
     talonInnerFront->Config_kI(0, kI_Inner);
     talonInnerFront->Config_kD(0, kD_Inner);
@@ -139,6 +138,7 @@ void Elevator::ControlInnerPosition() {
 }
 
 void Elevator::ControlOuterPosition() {
+    // calculate in inches and command in inches thanks to position scaling
     double cmd = kPVouter * (mOuterPosCmd - GetOuterPos());
 
     if (cmd > kVMaxOuter) {
