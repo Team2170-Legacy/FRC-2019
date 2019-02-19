@@ -29,15 +29,23 @@ void TeleopElevator::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TeleopElevator::Execute() {
-    double cmd = Robot::oi->getOperatorJoystick()->GetY();
-    if (fabs(cmd) < 0.1)
+    double cmdInner = -Robot::oi->getOperatorJoystick()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
+    double cmdOuter = -Robot::oi->getOperatorJoystick()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+
+    if (fabs(cmdInner) < 0.1)
     {
-        cmd = 0.0;
+        cmdInner = 0.0;
     } 
-    cmd *= 20.0 * 0.02;
-    if (cmd != 0.0) {
-        Robot::elevator->SetInnerPosition(Robot::elevator->GetInnerCmd() + cmd);
-    }
+    cmdInner *= 20.0 * 0.02;
+
+    if (fabs(cmdOuter) < 0.1)
+    {
+        cmdOuter = 0.0;
+    } 
+    cmdOuter *= 20.0 * 0.02;
+
+    Robot::elevator->SetInnerPosition(Robot::elevator->GetInnerPosInches() + cmdInner);
+    Robot::elevator->SetOuterPosition(Robot::elevator->GetOuterPosInches() + cmdOuter * 4);
 }
 
 // Make this return true when this Command no longer needs to run execute()

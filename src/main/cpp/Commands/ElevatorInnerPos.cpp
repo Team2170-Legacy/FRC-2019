@@ -26,12 +26,12 @@ ElevatorInnerPos::ElevatorInnerPos(double position, bool instant): frc::Command(
 
 // Called just before this Command runs the first time
 void ElevatorInnerPos::Initialize() {
-    Robot::elevator->SetInnerPosition(m_position);
+
 }
 
 // Called repeatedly when this Command is scheduled to run
 void ElevatorInnerPos::Execute() {
-
+    Robot::elevator->SetInnerPosition(m_position);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -41,9 +41,9 @@ bool ElevatorInnerPos::IsFinished()
     if (m_instant) {
         retVal = true;
     }
-    else if (Robot::elevator->InnerAtPosition()) 
+    else if (Robot::elevator->InnerAtPosition())
     {
-        retVal =true;
+        retVal = true;
     }
     return retVal;
 }
