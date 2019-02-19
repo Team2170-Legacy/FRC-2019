@@ -45,7 +45,7 @@ void TeleopElevator::Execute() {
     cmdOuter *= 20.0 * 0.02;
 
     Robot::elevator->SetInnerPosition(Robot::elevator->GetInnerPosInches() + cmdInner);
-    Robot::elevator->SetOuterPosition(Robot::elevator->GetOuterPosInches() + cmdOuter * 4);
+    Robot::elevator->SetOuterPosition(Robot::elevator->GetOuterPosInches() + cmdOuter * 10);
 }
 
 // Make this return true when this Command no longer needs to run execute()

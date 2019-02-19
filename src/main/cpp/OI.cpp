@@ -17,6 +17,7 @@
 #include "Commands/ElevatorInnerPos.h"
 #include "Commands/ElevatorOuterPos.h"
 #include "Commands/ElevatorRearPos.h"
+#include "Commands/InitRobot.h"
 #include "Commands/IntakeDown.h"
 #include "Commands/IntakeToggle.h"
 #include "Commands/IntakeUp.h"
