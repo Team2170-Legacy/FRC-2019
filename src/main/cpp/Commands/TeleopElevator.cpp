@@ -29,7 +29,15 @@ void TeleopElevator::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TeleopElevator::Execute() {
-
+    double cmd = Robot::oi->getOperatorJoystick()->GetY();
+    if (fabs(cmd) < 0.1)
+    {
+        cmd = 0.0;
+    } 
+    cmd *= 20.0 * 0.02;
+    if (cmd != 0.0) {
+        Robot::elevator->SetInnerPosition(Robot::elevator->GetInnerCmd() + cmd);
+    }
 }
 
 // Make this return true when this Command no longer needs to run execute()

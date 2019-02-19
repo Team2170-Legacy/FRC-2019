@@ -32,6 +32,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     kD_Outer(frc::Preferences::GetInstance()->GetDouble("kD Outer", 0.0)),
     kI_Outer(frc::Preferences::GetInstance()->GetDouble("kI Outer", 0.0)),
     kF_Outer(frc::Preferences::GetInstance()->GetDouble("kF Outer", 0.0)),
+    bMagic(frc::Preferences::GetInstance()->GetBoolean("Magic Elevator", false)),
     kPVouter(frc::Preferences::GetInstance()->GetDouble("kPVouter", 1.0)),
     kVMaxOuter(frc::Preferences::GetInstance()->GetDouble("kVMaxOuter", 1.0)),
     kPVrear(frc::Preferences::GetInstance()->GetDouble("kPVrear", 1.0)),
@@ -62,6 +63,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonInnerFront->Config_kI(0, kI_Inner);
     talonInnerFront->Config_kD(0, kD_Inner);
     talonInnerFront->Config_kF(0, kF_Inner);
+    talonInnerFront->ConfigMotionAcceleration(INNER_MAGIC_ACCEL);    // cnts/100 msec
+    talonInnerFront->ConfigMotionCruiseVelocity(INNER_MAGIC_VELOCITY);  // cnts/100 msec
 
     talonRear->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
     talonRear->SetSensorPhase(true);
@@ -70,6 +73,11 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     pidOuter.reset(new rev::CANPIDController(sparkMaxOuter->GetPIDController()));
     sparkMaxOuterEncoder.reset(new rev::CANEncoder(sparkMaxOuter->GetEncoder()));
 
+    // set scaling factor for position (since encoder is in motor)
+    sparkMaxOuterEncoder->SetPositionConversionFactor((OUTER_SPROCKET_PITCH * M_PI) / OUTER_GEAR_RATIO);
+    sparkMaxOuterEncoder->SetVelocityConversionFactor((OUTER_SPROCKET_PITCH * M_PI) / OUTER_GEAR_RATIO / 60.0);
+    sparkMaxOuterEncoder->SetPosition(0.0);
+
     // Config PID gains for Spark Max Outer
     pidOuter->SetOutputRange(kMinOutput, kMaxOutput);
     pidOuter->SetP(kP_Outer);
@@ -77,11 +85,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     pidOuter->SetD(kD_Outer);
     pidOuter->SetFF(kF_Outer);
 
-    // set scaling factor for position (since encoder is in motor)
-    sparkMaxOuterEncoder->SetPositionConversionFactor(OUTER_GEAR_RATIO / OUTER_SPROCKET_PITCH);
-
-    // Set encoder to 0 position
-    sparkMaxOuterEncoder->SetPosition(0.0);
+    pidOuter->SetSmartMotionMaxVelocity(OUTER_MAGIC_VELOCITY);
+    pidOuter->SetSmartMotionMaxAccel(OUTER_MAGIC_ACCEL);
 }
 
 void Elevator::InitDefaultCommand() {
@@ -114,41 +119,56 @@ void Elevator::Periodic() {
 // here. Call these from Commands.
 
 void Elevator::ControlElevatorPositions() {
-    ControlInnerPosition();
-    ControlOuterPosition();
+    ControlInnerPosition(bMagic);
+    ControlOuterPosition(bMagic);
     ControlRearPosition();
 }
 
-void Elevator::ControlInnerPosition() {
+void Elevator::ControlInnerPosition(bool bMagic) {
     // calculate in inches and convert to native counts for command setpoint
-    double cmd = kPVinner * (mInnerPosCmd - GetInnerPosInches());
-
-    if (cmd > kVMaxInner) {
-        cmd = kVMaxInner;
+    if (bMagic)
+    {
+        talonInnerFront->Set(ControlMode::MotionMagic, inchesToCountsInner(mInnerPosCmd));
     }
-    else if (cmd < -kVMaxInner) {
-        cmd = -kVMaxInner;
-    }
+    else
+    {
+        double cmd = kPVinner * (mInnerPosCmd - GetInnerPosInches());
 
-    cmd *= kTs;
-    cmd = inchesToCountsInner(cmd);
-    cmd += GetInnerPos();
-//    talonInnerFront->Set(ControlMode::Position, cmd);
-    talonInnerFront->Set(ControlMode::Position, inchesToCountsInner(mInnerPosCmd));
+        if (cmd > kVMaxInner) {
+            cmd = kVMaxInner;
+        }
+        else if (cmd < -kVMaxInner) {
+            cmd = -kVMaxInner;
+        }
+
+        cmd *= kTs;
+        cmd = inchesToCountsInner(cmd);
+        cmd += GetInnerPos();
+    //    talonInnerFront->Set(ControlMode::Position, cmd);
+        talonInnerFront->Set(ControlMode::Position, inchesToCountsInner(mInnerPosCmd));
+    }
 }
 
-void Elevator::ControlOuterPosition() {
+void Elevator::ControlOuterPosition(bool bMagic) {
     // calculate in inches and command in inches thanks to position scaling
-    double cmd = kPVouter * (mOuterPosCmd - GetOuterPos());
 
-    if (cmd > kVMaxOuter) {
-        cmd = kVMaxOuter;
+    if (bMagic)
+    {
+        pidOuter->SetReference(mOuterPosCmd, rev::ControlType::kSmartMotion);
     }
-    else if (cmd < -kVMaxOuter) {
-        cmd = -kVMaxOuter;
+    else 
+    {
+        double cmd = kPVouter * (mOuterPosCmd - GetOuterPos());
+
+        if (cmd > kVMaxOuter) {
+            cmd = kVMaxOuter;
+        }
+        else if (cmd < -kVMaxOuter) {
+            cmd = -kVMaxOuter;
+        }
+        
+        pidOuter->SetReference(cmd * kTs, rev::ControlType::kPosition);
     }
-    
-    pidOuter->SetReference(cmd * kTs, rev::ControlType::kPosition);
 }
 
 void Elevator::ControlRearPosition() {
@@ -170,7 +190,8 @@ void Elevator::ControlRearPosition() {
 bool Elevator::InnerAtPosition() {
     bool atPositionWithDeadband;
 
-    if (std::abs(mRearPosCmd - GetInnerPos()) < 0.05 && std::abs(mRearPosCmd - GetInnerPos()) >= 0) {
+    if (std::fabs(mRearPosCmd - GetInnerPosInches()) < 0.05 
+    && std::fabs(mRearPosCmd - GetInnerPosInches()) >= 0) {
         atPositionWithDeadband = true;
     }
 
@@ -180,7 +201,8 @@ bool Elevator::InnerAtPosition() {
 bool Elevator::OuterAtPosition() {
     bool atPositionWithDeadband;
 
-    if (std::abs(mOuterPosCmd - GetOuterPos()) < 0.05 && std::abs(mOuterPosCmd - GetOuterPos()) >= 0) {
+    if (std::fabs(mOuterPosCmd - GetOuterPosInches()) < 0.05 
+    && std::fabs(mOuterPosCmd - GetOuterPosInches()) >= 0) {
         atPositionWithDeadband = true;
     }
     
@@ -190,7 +212,8 @@ bool Elevator::OuterAtPosition() {
 bool Elevator::RearAtPosition() {
     bool atPositionWithDeadband;
 
-    if (std::abs(mRearPosCmd - GetRearPos()) < 0.05 && std::abs(mRearPosCmd - GetRearPos()) >= 0) {
+    if (std::fabs(mRearPosCmd - GetRearPosInches()) < 0.05 
+    && std::fabs(mRearPosCmd - GetRearPosInches()) >= 0) {
         atPositionWithDeadband = true;
     }
     
@@ -204,15 +227,15 @@ void Elevator::StopAllElevators() {
 }
 
 void Elevator::StopInner() {
-    mInnerPosCmd = GetInnerPos();
+    mInnerPosCmd = GetInnerPosInches();
 }
 
 void Elevator::StopRear() {
-    mRearPosCmd = GetRearPos();
+    mRearPosCmd = GetRearPosInches();
 }
 
 void Elevator::StopOuter() {
-    mOuterPosCmd = GetOuterPos();
+    mOuterPosCmd = GetOuterPosInches();
 }
 
 double Elevator::inchesToRotationsOuter(double inches){
@@ -223,15 +246,18 @@ double Elevator::rotationsToInchesOuter(double rotations) {
     return rotations * OUTER_SPROCKET_PITCH * M_PI;
 }
 
-double Elevator::GetInnerPosInches() {
-    return GetInnerPos() / ENCODER_CNTS_PER_REV * INNER_SPROCKET_PITCH * M_PI;
+double Elevator::GetInnerPosInches()
+{
+    return countsToInchesInner(GetInnerPos());
 }
 
-double Elevator::GetRearPosInches() {
+double Elevator::GetRearPosInches()
+{
     // Implement this later!
 }
 
-double Elevator::GetOuterPosInches() {
+double Elevator::GetOuterPosInches()
+{
     return GetOuterPos();   // No need for math here because we have the scale factor
 }
 

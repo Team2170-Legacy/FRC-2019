@@ -21,11 +21,15 @@
 
 #define INNER_MAX_RPM 18730
 #define INNNER_GEAR_RATIO 49.0
-#define INNER_SPROCKET_PITCH 1.432		// chain in
+#define INNER_SPROCKET_PITCH 1.432
+#define INNER_MAGIC_VELOCITY 2457			// 27"/sec = 2.7"/100 msec = .6 rev/100 msec = 2457 cnts/100 msec
+#define INNER_MAGIC_ACCEL	(INNER_MAGIC_VELOCITY * 3)		// accel in terms of cnts/100msec / second
 
 #define OUTER_MAX_RPM 5676
 #define OUTER_GEAR_RATIO 14.2
-#define OUTER_SPROCKET_PITCH 1.432		// chain inches per rotation
+#define OUTER_SPROCKET_PITCH 1.432
+#define OUTER_MAGIC_VELOCITY 20			// inches/sec
+#define OUTER_MAGIC_ACCEL (OUTER_MAGIC_VELOCITY * 3) 	// inches/sec^2
 
 #define REAR_MAX_RPM 5840
 #define REAR_GEAR_RATIO 81.0
@@ -60,6 +64,7 @@ private:
 	const double kD_Outer;
 	const double kI_Outer;
 	const double kF_Outer;
+	const bool bMagic;
 
 	const double kMaxOutput = 1, kMinOutput = -1;
 
@@ -76,8 +81,8 @@ private:
 	double mOuterPosCmd = 0.0;
 	double mRearPosCmd = 0.0;
 	void ControlElevatorPositions();
-	void ControlInnerPosition();
-	void ControlOuterPosition();
+	void ControlInnerPosition(bool bMagic = false);
+	void ControlOuterPosition(bool bMagic = false);
 	void ControlRearPosition();
 	void StopAllElevators();
 	void StopInner();
@@ -86,9 +91,6 @@ private:
 	double GetInnerPos() { return talonInnerFront->GetSelectedSensorPosition(0);}
 	double GetRearPos() { return talonRear->GetSelectedSensorPosition(0);}
 	double GetOuterPos() { return sparkMaxOuter->GetEncoder().GetPosition();}
-	double GetInnerPosInches();
-	double GetRearPosInches();
-	double GetOuterPosInches();
 	double inchesToRotationsOuter(double inches);
 	double rotationsToInchesOuter(double rotations);
 	double inchesToCountsInner(double inches);
@@ -111,9 +113,11 @@ public:
 	bool InnerAtPosition();
 	bool OuterAtPosition();
 	bool RearAtPosition();
-
-
-
+	double GetInnerPosInches();
+	double GetInnerCmd() { return mInnerPosCmd;}
+	double GetRearPosInches();
+	double GetOuterPosInches();
+	double GetOuterCmd() { return mOuterPosCmd;}
 };
 
 #endif
