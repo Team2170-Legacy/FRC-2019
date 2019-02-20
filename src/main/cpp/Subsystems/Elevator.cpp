@@ -176,7 +176,8 @@ bool Elevator::InnerAtPosition() {
 bool Elevator::OuterAtPosition() {
     bool atPositionWithDeadband = false;
 
-    if (std::fabs(mOuterPosCmd - GetOuterPosInches()) < IN_POSITION_DEADBAND) {
+    // we will fix this later (sorry gang)
+    if (std::fabs(mOuterPosCmd + GetOuterPosInches()) < IN_POSITION_DEADBAND) {
         atPositionWithDeadband = true;
     }
     
@@ -231,7 +232,7 @@ double Elevator::GetRearPosInches()
 
 double Elevator::GetOuterPosInches()
 {
-    return GetOuterPos();   // No need for math here because we have the scale factor
+    return -GetOuterPos();   // No need for math here because we have the scale factor
 }
 
 double Elevator::inchesToCountsInner(double inches)

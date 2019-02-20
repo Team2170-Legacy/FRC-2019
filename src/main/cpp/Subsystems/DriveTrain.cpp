@@ -92,12 +92,12 @@ void DriveTrain::TankDrive(double left, double right) {
 
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation) 
 {
-    differentialDrive->ArcadeDrive(xSpeed, zRotation);
+    differentialDrive->ArcadeDrive(-xSpeed, zRotation);
 }
 
 void DriveTrain::VelocityArcade(double xSpeed, double zRotation, bool squaredInputs)
 {
-    double moveValue = xSpeed;
+    double moveValue = -xSpeed;
     double rotateValue = zRotation;
 
     if(moveValue > 0.0 && moveValue < 0.05){
