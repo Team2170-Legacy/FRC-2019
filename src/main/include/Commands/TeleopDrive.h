@@ -33,8 +33,6 @@ public:
 		arcadeDriveVelocity,
 		tankDriveVoltage,
 		arcadeDriveVoltage,
-		testCANSparkMax,
-		motionProfileDrive
 	};
 
 	void Initialize() override;

@@ -49,9 +49,6 @@ void TeleopDrive::Execute()
     case DriveMode::arcadeDriveVoltage:
         Robot::driveTrain->ArcadeDrive(yAxis, xAxis);
         break;
-    case DriveMode::testCANSparkMax:
-        Robot::driveTrain->ClosedLoopVelocityControl(yAxis);
-        break;
     default:
         break;
     }

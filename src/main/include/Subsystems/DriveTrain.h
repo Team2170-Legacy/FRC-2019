@@ -42,7 +42,7 @@ private:
 	std::shared_ptr<rev::CANEncoder> encoderControllerR;
 
 	const double kGearRatio = 5.95;
-	const double kWheelDiameter;
+	const double kWheelDiameter = 4.0;
 
 	// PID Gains for closed-loop velocity control
 	double kP = 0/*4.0e-4*/, kI = 0, kD = 0, kIz = 0, kFF = 1.8e-4, kMaxOutput = 1, kMinOutput = -1;
@@ -74,6 +74,8 @@ public:
 	void resetGyro()  { analogGyro->Reset();}
 	double getGyroAngle() {return analogGyro->GetAngle();}
 
+	double FPStoRPM(double fps);
+	double RPMtoFPS(double rpm);
 };
 
 #endif
