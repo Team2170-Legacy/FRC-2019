@@ -47,8 +47,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain"),
     encoderControllerR.reset(new rev::CANEncoder(sparkMaxRightLead->GetEncoder()));
 
     // Set velocity scaling
-    encoderControllerL->SetVelocityConversionFactor(kGearRatio * 60.0 * 12.0 / M_PI / kWheelDiameter);
-    encoderControllerR->SetVelocityConversionFactor(kGearRatio * 60.0 * 12.0 / M_PI / kWheelDiameter);
+    encoderControllerL->SetVelocityConversionFactor((M_PI * kWheelDiameter) / (kGearRatio * 60.0 * 12.0));
+    encoderControllerR->SetVelocityConversionFactor((M_PI * kWheelDiameter) / (kGearRatio * 60.0 * 12.0));
 
     // Set min/max powers
     pidControllerL->SetOutputRange(kMinOutput, kMaxOutput);
