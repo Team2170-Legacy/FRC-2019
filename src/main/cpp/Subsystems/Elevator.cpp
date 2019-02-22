@@ -123,21 +123,24 @@ void Elevator::Periodic() {
 // here. Call these from Commands.
 
 void Elevator::ControlElevatorPositions() {
-    ControlInnerPosition(bMagic);
-    ControlOuterPosition(bMagic);
-    ControlRearPosition();
+    if (Robot::PracticeBot) {
+
+    }
+    else {
+        ControlInnerPosition(bMagic);
+        ControlOuterPosition(bMagic);
+        ControlRearPosition();
+    }
 }
 
 void Elevator::ControlInnerPosition(bool bMagic) {
     // calculate in inches and convert to native counts for command setpoint
     mInnerPosCmd = fmax(mInnerPosCmd, kMinInnerPos);
     mInnerPosCmd = fmin(mInnerPosCmd, kMaxInnerPos);
-    if (bMagic)
-    {
+    if (bMagic) {
         talonInnerFront->Set(ControlMode::MotionMagic, inchesToCountsInner(mInnerPosCmd));
     }
-    else    //Step input
-    {
+    else {    //Step input
         talonInnerFront->Set(ControlMode::Position, inchesToCountsInner(mInnerPosCmd));
     }
 }
@@ -155,8 +158,7 @@ void Elevator::ControlRearPosition() {
 bool Elevator::InnerAtPosition() {
     bool atPositionWithDeadband = false;
 
-    if (std::fabs(mInnerPosCmd - GetInnerPosInches()) < IN_POSITION_DEADBAND)
-    {
+    if (std::fabs(mInnerPosCmd - GetInnerPosInches()) < IN_POSITION_DEADBAND) {
         atPositionWithDeadband = true;
     }
 
@@ -210,37 +212,30 @@ double Elevator::rotationsToInchesOuter(double rotations) {
     return rotations * OUTER_SPROCKET_PITCH * M_PI;
 }
 
-double Elevator::GetInnerPosInches()
-{
+double Elevator::GetInnerPosInches() {
     return countsToInchesInner(GetInnerPos());
 }
 
-double Elevator::GetRearPosInches()
-{
+double Elevator::GetRearPosInches() {
     // Implement this later!
 }
 
-double Elevator::GetOuterPosInches()
-{
+double Elevator::GetOuterPosInches() {
     return -GetOuterPos();   // No need for math here because we have the scale factor
 }
 
-double Elevator::inchesToCountsInner(double inches)
-{
+double Elevator::inchesToCountsInner(double inches) {
     return (inches / (INNER_SPROCKET_PITCH * M_PI) * ENCODER_CNTS_PER_REV);
 }
 
-double Elevator::countsToInchesInner(double counts)
-{
+double Elevator::countsToInchesInner(double counts) {
     return (counts / ENCODER_CNTS_PER_REV * (INNER_SPROCKET_PITCH * M_PI));
 }
 
-double Elevator::inchesToCountsRear(double inches)
-{
+double Elevator::inchesToCountsRear(double inches) {
     return (inches / (REAR_SMALL_SPROCKET_PITCH * M_PI) * ENCODER_CNTS_PER_REV);
 }
 
-double Elevator::countsToInchesRear(double counts)
-{
+double Elevator::countsToInchesRear(double counts) {
     return (counts / ENCODER_CNTS_PER_REV * (REAR_SMALL_SPROCKET_PITCH * M_PI));
 }

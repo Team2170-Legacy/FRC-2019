@@ -62,9 +62,11 @@ void Robot::DisabledPeriodic() {
 }
 
 void Robot::AutonomousInit() {
-	autonomousCommand = chooser.GetSelected();
-	if (autonomousCommand != nullptr)
-		autonomousCommand->Start();
+	// No autonomous commands (although we could have made initRobot an autonomous commmand)
+	// autonomousCommand = chooser.GetSelected();
+	// if (autonomousCommand != nullptr)
+	// 	autonomousCommand->Start();
+	initRobot->Start();
 }
 
 void Robot::AutonomousPeriodic() {
@@ -79,7 +81,6 @@ void Robot::TeleopInit() {
 	if (autonomousCommand != nullptr)
 		autonomousCommand->Cancel();
 	
-	initRobot->Start();
 }
 
 void Robot::TeleopPeriodic() {
