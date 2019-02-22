@@ -10,7 +10,11 @@
     "bin/": true,
     ".classpath": true,
     ".project": true,
-    "**/*~": true
+    "**/*~": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
   },
   "files.associations": {
     "array": "cpp",
@@ -55,7 +59,8 @@
     "tuple": "cpp",
     "typeinfo": "cpp",
     "utility": "cpp",
-    "complex": "cpp"
+    "complex": "cpp",
+    "*.inc": "cpp"
   },
   "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

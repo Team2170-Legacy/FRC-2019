@@ -74,6 +74,8 @@ public:
 	void resetGyro()  { analogGyro->Reset();}
 	double getGyroAngle() {return analogGyro->GetAngle();}
 
+	double FPStoRPM(double fps);
+	double RPMtoFPS(double rpm);
 };
 
 #endif

@@ -92,7 +92,7 @@ void DriveTrain::TankDrive(double left, double right) {
 
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation) 
 {
-    differentialDrive->ArcadeDrive(xSpeed, zRotation);
+    differentialDrive->ArcadeDrive(-xSpeed, zRotation);
 }
 
 void DriveTrain::VelocityArcade(double xSpeed, double zRotation, bool squaredInputs)
@@ -178,7 +178,7 @@ void DriveTrain::VelocityArcade(double xSpeed, double zRotation, bool squaredInp
     }
 
     double leftMotorSpeed = leftMotorOutput * maxFeetPerSec;
-    double rightMotorSpeed = rightMotorOutput * maxFeetPerSec;
+    double rightMotorSpeed = rightMotorOutput * -maxFeetPerSec;
 
     // Send setpoints to pid controllers
     pidControllerL->SetReference(leftMotorSpeed, rev::ControlType::kVelocity);
@@ -284,4 +284,16 @@ void DriveTrain::TankDriveVelocityError(double velocity, double error) {
 
     pidControllerL->SetReference(setPointL, rev::ControlType::kVelocity);
     pidControllerR->SetReference(setPointR, rev::ControlType::kVelocity);
+}
+
+double DriveTrain::FPStoRPM(double fps) {
+     return fps * kGearRatio * 60.0 * 12.0 / M_PI / kWheelDiameter;
+}
+
+double DriveTrain::RPMtoFPS(double rpm) {
+    return rpm / kGearRatio / 60.0 / 12.0 * M_PI * kWheelDiameter;
+}
+
+double DriveTrain::GetVelocity() {
+    return RPMtoFPS(sparkMaxLeftLead->GetEncoder().GetVelocity());
 }
