@@ -48,6 +48,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonInnerFront->Config_kF(0, kF_Inner);
     talonInnerFront->ConfigMotionAcceleration(INNER_MAGIC_ACCEL);      // cnts/100 msec
     talonInnerFront->ConfigMotionCruiseVelocity(INNER_MAGIC_VELOCITY); // cnts/100 msec
+//    talonInnerFront->ConfigClosedloopRamp(0.3);     // 0.3 seconds to full speed
 
     if (Robot::IsPracticeBot())
     {
@@ -193,6 +194,7 @@ void Elevator::StopAllElevators() {
 
 void Elevator::StopInner() {
     mInnerPosCmd = GetInnerPosInches();
+    talonInnerFront->Set(ControlMode::MotionMagic, inchesToCountsInner(mInnerPosCmd));
 }
 
 void Elevator::StopRear() {
@@ -243,13 +245,19 @@ void Elevator::SlewInner(double slew) {
     double cmd = slew;
     bool stop = false;
 
-    if (fabs(cmd) < 0.2) {
+    if (fabs(cmd) < 0.1) {
         cmd = 0.0;
         stop = true;
     } 
     cmd *= 20.0 * 0.02;
-
-    SetInnerPosition(Robot::elevator->GetInnerCmd() + cmd);
+    if (stop) {
+        if (!InnerAtPosition()) {
+            StopInner();
+        }
+    }
+    else {
+        SetInnerPosition(Robot::elevator->GetInnerCmd() + cmd);
+    }
 }
 
 void Elevator::SlewOuter(double slew) {
@@ -264,7 +272,7 @@ void Elevator::SlewOuter(double slew) {
 
     if (stop) {
         if (!OuterAtPosition()) {
-            StopInner();
+            StopOuter();
         }
     }
     else {
