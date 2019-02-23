@@ -38,24 +38,17 @@ void TeleopElevator::Execute() {
     if (fabs(cmdInner) < 0.2)
     {
         cmdInner = 0.0;
-        stopInner = true;
     } 
-    cmdInner *= 20.0 * 0.02;
 
     if (fabs(cmdOuter) < 0.2)
     {
         cmdOuter = 0.0;
         stopOuter = true;
     } 
-    cmdOuter *= 20.0 * 0.02;
 
-    //std::cout << "called" << std::endl;
-    if (stopInner) {
-    }
-    else {
-    Robot::elevator->SetInnerPosition(Robot::elevator->GetInnerPosInches() + cmdInner);
-    }
+    Robot::elevator->SlewInner(cmdInner);
  
+    cmdOuter *= 20.0 * 0.05;
     if (stopOuter) {
     }
     else {

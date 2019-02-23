@@ -100,8 +100,6 @@ private:
 	double countsToInchesInner(double counts);
 	double inchesToCountsRear(double inches);
 	double countsToInchesRear(double counts);
-	void SlewInner(double slew);
-	void SlewOuter(double slew);
 
 public:
 	Elevator();
@@ -125,6 +123,8 @@ public:
 	double GetRearPosInches();
 	double GetOuterPosInches();
 	double GetOuterCmd() { return -mOuterPosCmd;}
+	void SlewInner(double slew);
+	void SlewOuter(double slew);
 };
 
 #endif

@@ -36,9 +36,22 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     kF_Rear(frc::Preferences::GetInstance()->GetDouble("kF Rear", 0.0)),
     bMagic(frc::Preferences::GetInstance()->GetBoolean("Magic Elevator", false)) {
 
-    if (Robot::PracticeBot)
-    {
+    // Both robots have "inner elevator"
+    talonInnerFront.reset(new WPI_TalonSRX(9));
+    talonInnerFront->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
+    talonInnerFront->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_FeedbackConnector, LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 0);
+    talonInnerFront->SetSensorPhase(false);
+    talonInnerFront->SetSelectedSensorPosition(0, 0);
+    talonInnerFront->Config_kP(0, kP_Inner);
+    talonInnerFront->Config_kI(0, kI_Inner);
+    talonInnerFront->Config_kD(0, kD_Inner);
+    talonInnerFront->Config_kF(0, kF_Inner);
+    talonInnerFront->ConfigMotionAcceleration(INNER_MAGIC_ACCEL);      // cnts/100 msec
+    talonInnerFront->ConfigMotionCruiseVelocity(INNER_MAGIC_VELOCITY); // cnts/100 msec
 
+    if (Robot::IsPracticeBot())
+    {
+        printf("Practice Elevator\n");
     }
     else
     {
@@ -48,27 +61,13 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
         limitSwitchInnerBottom.reset(new frc::DigitalInput(1));
         AddChild("Limit Switch Inner Bottom", limitSwitchInnerBottom);
 
-        talonInnerFront.reset(new WPI_TalonSRX(9));
+
         talonRear.reset(new WPI_TalonSRX(8));
-
-        sparkMaxOuter.reset(new rev::CANSparkMax(sparkElevatorID, rev::CANSparkMax::MotorType::kBrushless));
-
-        // setup elevator motors
-        talonInnerFront->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
-        talonInnerFront->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_FeedbackConnector, LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 0);
-        talonInnerFront->SetSensorPhase(false);
-        talonInnerFront->SetSelectedSensorPosition(0, 0);
-        talonInnerFront->Config_kP(0, kP_Inner);
-        talonInnerFront->Config_kI(0, kI_Inner);
-        talonInnerFront->Config_kD(0, kD_Inner);
-        talonInnerFront->Config_kF(0, kF_Inner);
-        talonInnerFront->ConfigMotionAcceleration(INNER_MAGIC_ACCEL);      // cnts/100 msec
-        talonInnerFront->ConfigMotionCruiseVelocity(INNER_MAGIC_VELOCITY); // cnts/100 msec
-
         talonRear->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
         talonRear->SetSensorPhase(true);
         talonRear->SetSelectedSensorPosition(0, 0);
 
+        sparkMaxOuter.reset(new rev::CANSparkMax(sparkElevatorID, rev::CANSparkMax::MotorType::kBrushless));
         pidOuter.reset(new rev::CANPIDController(sparkMaxOuter->GetPIDController()));
         sparkMaxOuterEncoder.reset(new rev::CANEncoder(sparkMaxOuter->GetEncoder()));
 
@@ -119,8 +118,8 @@ void Elevator::Periodic() {
 // here. Call these from Commands.
 
 void Elevator::ControlElevatorPositions() {
-    if (Robot::PracticeBot) {
-
+    if (Robot::IsPracticeBot()) {
+        ControlInnerPosition(bMagic);
     }
     else {
         ControlInnerPosition(bMagic);
@@ -250,14 +249,7 @@ void Elevator::SlewInner(double slew) {
     } 
     cmd *= 20.0 * 0.02;
 
-    if (stop) {
-        if (!InnerAtPosition()) {
-            StopInner();
-        }
-    }
-    else {
-        SetInnerPosition(Robot::elevator->GetInnerPosInches() + cmd);
-    }
+    SetInnerPosition(Robot::elevator->GetInnerCmd() + cmd);
 }
 
 void Elevator::SlewOuter(double slew) {
