@@ -21,6 +21,7 @@
 #include "Commands/IntakeDown.h"
 #include "Commands/IntakeToggle.h"
 #include "Commands/IntakeUp.h"
+#include "Commands/PlaceHatch.h"
 #include "Commands/TeleopDrive.h"
 #include "Commands/TeleopElevator.h"
 #include "Commands/TeleopIntake.h"
