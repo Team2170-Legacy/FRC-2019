@@ -32,23 +32,35 @@ void TeleopElevator::Initialize() {
 void TeleopElevator::Execute() {
     double cmdInner = -Robot::oi->getOperatorJoystick()->GetY(frc::GenericHID::JoystickHand::kLeftHand);
     double cmdOuter = -Robot::oi->getOperatorJoystick()->GetY(frc::GenericHID::JoystickHand::kRightHand);
+    bool stopInner = false;
+    bool stopOuter = false;
 
     if (fabs(cmdInner) < 0.2)
     {
         cmdInner = 0.0;
+        stopInner = true;
     } 
     cmdInner *= 20.0 * 0.02;
 
     if (fabs(cmdOuter) < 0.2)
     {
         cmdOuter = 0.0;
+        stopOuter = true;
     } 
     cmdOuter *= 20.0 * 0.02;
 
     //std::cout << "called" << std::endl;
+    if (stopInner) {
+    }
+    else {
     Robot::elevator->SetInnerPosition(Robot::elevator->GetInnerPosInches() + cmdInner);
-    Robot::elevator->SetOuterPosition(Robot::elevator->GetOuterPosInches() + (cmdOuter * 10));
-
+    }
+ 
+    if (stopOuter) {
+    }
+    else {
+        Robot::elevator->SetOuterPosition(Robot::elevator->GetOuterPosInches() + (cmdOuter * 10));
+    }
 }
 
 // Make this return true when this Command no longer needs to run execute()

@@ -106,10 +106,6 @@ void Elevator::Periodic() {
     ControlElevatorPositions();
 
     // put elevator positions on smartdash
-    frc::SmartDashboard::PutNumber("Inner Elevator", GetInnerPosInches());
-    frc::SmartDashboard::PutNumber("Inner Elevator Cnts", GetInnerPos());
-    frc::SmartDashboard::PutNumber("Outer Elevator", GetOuterPosInches());
-    frc::SmartDashboard::PutNumber("Rear Elevator", GetRearPosInches());
     frc::SmartDashboard::PutNumber("Elevator Setpoint Inner (inches)", mInnerPosCmd);
     frc::SmartDashboard::PutNumber("Elevator Setpoint Outer (inches)", mOuterPosCmd);
 }
@@ -143,16 +139,20 @@ void Elevator::ControlInnerPosition(bool bMagic) {
     else {    //Step input
         talonInnerFront->Set(ControlMode::Position, inchesToCountsInner(mInnerPosCmd));
     }
+    frc::SmartDashboard::PutNumber("Inner Elevator", GetInnerPosInches());
+    frc::SmartDashboard::PutNumber("Inner Elevator Cnts", GetInnerPos());
 }
 
 void Elevator::ControlOuterPosition(bool bMagic) {
     // calculate in inches and command in inches thanks to position scaling
     pidOuter->SetReference(mOuterPosCmd, rev::ControlType::kPosition);
+    frc::SmartDashboard::PutNumber("Outer Elevator", GetOuterPosInches());
 }
 
 void Elevator::ControlRearPosition() {
     // calculate in inches and convert to native encoder units for setpoint
     talonRear->Set(ControlMode::Position, inchesToCountsRear(mRearPosCmd));
+    frc::SmartDashboard::PutNumber("Rear Elevator", GetRearPosInches());
 }
 
 bool Elevator::InnerAtPosition() {
@@ -238,4 +238,44 @@ double Elevator::inchesToCountsRear(double inches) {
 
 double Elevator::countsToInchesRear(double counts) {
     return (counts / ENCODER_CNTS_PER_REV * (REAR_SMALL_SPROCKET_PITCH * M_PI));
+}
+
+void Elevator::SlewInner(double slew) {
+    double cmd = slew;
+    bool stop = false;
+
+    if (fabs(cmd) < 0.2) {
+        cmd = 0.0;
+        stop = true;
+    } 
+    cmd *= 20.0 * 0.02;
+
+    if (stop) {
+        if (!InnerAtPosition()) {
+            StopInner();
+        }
+    }
+    else {
+        SetInnerPosition(Robot::elevator->GetInnerPosInches() + cmd);
+    }
+}
+
+void Elevator::SlewOuter(double slew) {
+    double cmd = slew;
+    bool stop = false;
+
+    if (fabs(cmd) < 0.2) {
+        cmd = 0.0;
+        stop = true;
+    } 
+    cmd *= 20.0 * 0.02;
+
+    if (stop) {
+        if (!OuterAtPosition()) {
+            StopInner();
+        }
+    }
+    else {
+        SetOuterPosition(Robot::elevator->GetOuterPosInches() + cmd);
+    }
 }

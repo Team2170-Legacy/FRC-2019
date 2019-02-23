@@ -71,8 +71,8 @@ public:
 	double GetVelocity();	
 
 	// Gyro methods
-	void resetGyro()  { analogGyro->Reset();}
-	double getGyroAngle() {return analogGyro->GetAngle();}
+	void ResetGyro()  { analogGyro->Reset();}
+	double GetGyroAngle() {return analogGyro->GetAngle();}
 
 	double FPStoRPM(double fps);
 	double RPMtoFPS(double rpm);
