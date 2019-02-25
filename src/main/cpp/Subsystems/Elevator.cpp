@@ -40,6 +40,9 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     talonInnerFront.reset(new WPI_TalonSRX(9));
     talonInnerFront->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
     talonInnerFront->ConfigReverseLimitSwitchSource(LimitSwitchSource::LimitSwitchSource_FeedbackConnector, LimitSwitchNormal::LimitSwitchNormal_NormallyOpen, 0);
+    if (Robot::IsPracticeBot()) {
+        talonInnerFront->SetInverted(true);
+    }
     talonInnerFront->SetSensorPhase(false);
     talonInnerFront->SetSelectedSensorPosition(0, 0);
     talonInnerFront->Config_kP(0, kP_Inner);
