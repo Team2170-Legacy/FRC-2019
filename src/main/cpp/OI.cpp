@@ -45,11 +45,11 @@ OI::OI() {
     pushButtonBlue1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 6));
     pushButtonBlue1->WhenPressed(new ElevatorOuterPos(0, false));
     pushButtonRed3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 5));
-    pushButtonRed3->WhenPressed(new ElevatorInnerPos(16, false));
+    pushButtonRed3->WhenPressed(new ElevatorInnerPos(Robot::elevator->kHatchL3, false));
     pushButtonRed2.reset(new frc::JoystickButton(pushbuttonPanel.get(), 4));
-    pushButtonRed2->WhenPressed(new ElevatorInnerPos(10, false));
+    pushButtonRed2->WhenPressed(new ElevatorInnerPos(Robot::elevator->kHatchL2, false));
     pushButtonRed1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 3));
-    pushButtonRed1->WhenPressed(new ElevatorInnerPos(4, false));
+    pushButtonRed1->WhenPressed(new ElevatorInnerPos(Robot::elevator->kHatchL1, false));
     driverJoystick.reset(new frc::Joystick(0));
     
     counterClockwiseTurn.reset(new frc::JoystickButton(driverJoystick.get(), 3));

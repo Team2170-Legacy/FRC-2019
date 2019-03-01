@@ -34,7 +34,17 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     kD_Rear(frc::Preferences::GetInstance()->GetDouble("kD Rear", 0.0)),
     kI_Rear(frc::Preferences::GetInstance()->GetDouble("kI Rear", 0.0)),
     kF_Rear(frc::Preferences::GetInstance()->GetDouble("kF Rear", 0.0)),
-    bMagic(frc::Preferences::GetInstance()->GetBoolean("Magic Elevator", false)) {
+    bMagic(frc::Preferences::GetInstance()->GetBoolean("Magic Elevator", false)),
+    kMaxInnerPos(frc::Preferences::GetInstance()->GetDouble("Max Inner", 30.0)),
+    kMinInnerPos(frc::Preferences::GetInstance()->GetDouble("Min Inner", 0.0)),
+    kMaxOuterPos(frc::Preferences::GetInstance()->GetDouble("Min Outer", 20.0)),
+    kMinOuterPos(frc::Preferences::GetInstance()->GetDouble("Min Outer", 0.0)),
+    kHatchL1(frc::Preferences::GetInstance()->GetDouble("Hatch L1", 4.0)),
+    kHatchL2(frc::Preferences::GetInstance()->GetDouble("Hatch L2", 12.0)),
+    kHatchL3(frc::Preferences::GetInstance()->GetDouble("Hatch L3", 24.0)),
+    kCargoL1(frc::Preferences::GetInstance()->GetDouble("Cargo L1", 6.0)),
+    kCargoL2(frc::Preferences::GetInstance()->GetDouble("Cargo L2", 16.0)),
+    kCargoL3(frc::Preferences::GetInstance()->GetDouble("Cargo L3", 26.0)) {
 
     // Both robots have "inner elevator"
     talonInnerFront.reset(new WPI_TalonSRX(9));
@@ -280,5 +290,13 @@ void Elevator::SlewOuter(double slew) {
     }
     else {
         SetOuterPosition(Robot::elevator->GetOuterPosInches() + cmd);
+    }
+}
+
+void Elevator::UpdateDisabledElevators() {
+    mInnerPosCmd = GetInnerPos();
+    if (mInnerPosCmd < 0.0) {
+        talonInnerFront->SetSelectedSensorPosition(0, 0);
+        mInnerPosCmd = 0.0;
     }
 }

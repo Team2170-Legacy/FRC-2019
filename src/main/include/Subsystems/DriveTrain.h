@@ -68,6 +68,8 @@ public:
 	void VelocityTankDrive(double left, double right, bool squaredInputs = true);
 	void ClosedLoopVelocityControl(double speed);
 	void TankDriveVelocityError(double velocity, double error);
+	void SmartMotionDrive(double distance);
+	double GetPosition() { return encoderControllerL->GetPosition();}
 	double GetVelocity();	
 
 	// Gyro methods

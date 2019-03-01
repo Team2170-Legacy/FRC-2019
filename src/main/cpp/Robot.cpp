@@ -66,6 +66,7 @@ void Robot::DisabledInit(){
 
 void Robot::DisabledPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
+	Robot::elevator->UpdateDisabledElevators();		// update commanded position no jumps when enabled
 }
 
 void Robot::AutonomousInit() {

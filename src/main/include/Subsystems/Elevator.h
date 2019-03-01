@@ -72,10 +72,10 @@ private:
 
 	const double kMaxOutput = 1, kMinOutput = -1;
 
-	const double kMaxInnerPos = 20.0;
-	const double kMinInnerPos = 0.0;
-	const double kMaxOuterPos = 20.0;
-	const double kMinOuterPos = 0.0;
+	const double kMaxInnerPos;
+	const double kMinInnerPos;
+	const double kMaxOuterPos;
+	const double kMinOuterPos;
 	std::shared_ptr<rev::CANSparkMax> sparkMaxOuter;
 	std::shared_ptr<rev::CANEncoder> sparkMaxOuterEncoder;
 	std::shared_ptr<rev::CANPIDController> pidOuter;
@@ -102,6 +102,14 @@ private:
 	double countsToInchesRear(double counts);
 
 public:
+	const double kHatchL1;
+	const double kHatchL2;
+	const double kHatchL3;
+	const double kCargoL1;
+	const double kCargoL2;
+	const double kCargoL3;
+	const double kOuterHome = 3.0;
+	
 	Elevator();
 	void InitDefaultCommand() override;
 	void Periodic() override;
@@ -125,6 +133,7 @@ public:
 	double GetOuterCmd() { return -mOuterPosCmd;}
 	void SlewInner(double slew);
 	void SlewOuter(double slew);
+	void UpdateDisabledElevators();
 };
 
 #endif
