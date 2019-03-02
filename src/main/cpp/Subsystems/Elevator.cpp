@@ -44,7 +44,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     kHatchL3(frc::Preferences::GetInstance()->GetDouble("Hatch L3", 24.0)),
     kCargoL1(frc::Preferences::GetInstance()->GetDouble("Cargo L1", 6.0)),
     kCargoL2(frc::Preferences::GetInstance()->GetDouble("Cargo L2", 16.0)),
-    kCargoL3(frc::Preferences::GetInstance()->GetDouble("Cargo L3", 26.0)) {
+    kCargoL3(frc::Preferences::GetInstance()->GetDouble("Cargo L3", 26.0)),
+    kHatchReleasePos(frc::Preferences::GetInstance()->GetDouble("Hatch Release", -4.0)) {
 
     // Both robots have "inner elevator"
     talonInnerFront.reset(new WPI_TalonSRX(9));

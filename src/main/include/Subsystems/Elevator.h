@@ -109,6 +109,7 @@ public:
 	const double kCargoL2;
 	const double kCargoL3;
 	const double kOuterHome = 3.0;
+	const double kHatchReleasePos;
 	
 	Elevator();
 	void InitDefaultCommand() override;
