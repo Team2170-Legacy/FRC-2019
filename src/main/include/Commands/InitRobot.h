@@ -14,6 +14,7 @@
 #define INIT_ROBOT_H
 
 #include "frc/commands/CommandGroup.h"
+#include "Robot.h"
 
 /**
  *

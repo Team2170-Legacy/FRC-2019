@@ -34,9 +34,9 @@
 #define REAR_MAX_RPM 5840
 #define REAR_GEAR_RATIO 81.0
 #define REAR_SMALL_SPROCKET_PITCH 1.432
-#define REAR_LARGE_SPROKET_PITCH 1.751
+#define REAR_LARGE_SPROCKET_PITCH 1.751
 #define REAR_DRUM_DIAMETER 1.22
-
+#define REAR_INCHES_PER_ROTAION ((REAR_SMALL_SPROCKET_PITCH / REAR_LARGE_SPROCKET_PITCH) * REAR_DRUM_DIAMETER * M_PI)
 #define IN_POSITION_DEADBAND 0.25
 /**
  *
@@ -76,6 +76,8 @@ private:
 	const double kMinInnerPos;
 	const double kMaxOuterPos;
 	const double kMinOuterPos;
+	const double kMaxRearPos;
+	const double kMinRearPos;
 	std::shared_ptr<rev::CANSparkMax> sparkMaxOuter;
 	std::shared_ptr<rev::CANEncoder> sparkMaxOuterEncoder;
 	std::shared_ptr<rev::CANPIDController> pidOuter;

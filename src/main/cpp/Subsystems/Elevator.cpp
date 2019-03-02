@@ -39,6 +39,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     kMinInnerPos(frc::Preferences::GetInstance()->GetDouble("Min Inner", 0.0)),
     kMaxOuterPos(frc::Preferences::GetInstance()->GetDouble("Min Outer", 20.0)),
     kMinOuterPos(frc::Preferences::GetInstance()->GetDouble("Min Outer", 0.0)),
+    kMaxRearPos(frc::Preferences::GetInstance()->GetDouble("Max Rear", 0.0)),
+    kMinRearPos(frc::Preferences::GetInstance()->GetDouble("Min Rear", -20.0)),
     kHatchL1(frc::Preferences::GetInstance()->GetDouble("Hatch L1", 4.0)),
     kHatchL2(frc::Preferences::GetInstance()->GetDouble("Hatch L2", 12.0)),
     kHatchL3(frc::Preferences::GetInstance()->GetDouble("Hatch L3", 24.0)),
@@ -81,6 +83,12 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
         talonRear->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 0);
         talonRear->SetSensorPhase(true);
         talonRear->SetSelectedSensorPosition(0, 0);
+        talonRear->Config_kP(0, kP_Rear);
+        talonRear->Config_kI(0, kI_Rear);
+        talonRear->Config_kD(0, kD_Rear);
+        talonRear->Config_kF(0, kF_Rear);
+        talonRear->ConfigMotionAcceleration(OUTER_MAGIC_ACCEL);      // cnts/100 msec
+        talonRear->ConfigMotionCruiseVelocity(OUTER_MAGIC_VELOCITY); // cnts/100 msec
 
         sparkMaxOuter.reset(new rev::CANSparkMax(sparkElevatorID, rev::CANSparkMax::MotorType::kBrushless));
         pidOuter.reset(new rev::CANPIDController(sparkMaxOuter->GetPIDController()));
@@ -248,11 +256,11 @@ double Elevator::countsToInchesInner(double counts) {
 }
 
 double Elevator::inchesToCountsRear(double inches) {
-    return (inches / (REAR_SMALL_SPROCKET_PITCH * M_PI) * ENCODER_CNTS_PER_REV);
+    return (inches / (REAR_INCHES_PER_ROTAION) * ENCODER_CNTS_PER_REV);
 }
 
 double Elevator::countsToInchesRear(double counts) {
-    return (counts / ENCODER_CNTS_PER_REV * (REAR_SMALL_SPROCKET_PITCH * M_PI));
+    return (counts / ENCODER_CNTS_PER_REV * (REAR_INCHES_PER_ROTAION));
 }
 
 void Elevator::SlewInner(double slew) {
