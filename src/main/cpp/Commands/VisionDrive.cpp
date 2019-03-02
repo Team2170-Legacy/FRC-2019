@@ -30,11 +30,10 @@ void VisionDrive::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void VisionDrive::Execute() {
-    double error = getVisionError();
-    std::cout << "Vision Error: " << error << std::endl;
-    Robot::driveTrain->TankDriveVelocityError(4.0, error);
-
-    //std::cout << "Gyro is running" << std::endl;
+    double e_Target = getVisionError();
+    double distance = getDistanceToTarget(); 
+    //std::cout << "Vision Error: " << error << std::endl;
+    Robot::driveTrain->VisionSteerController(distance, e_Target);
 }
 
 // Make this return true when this Command no longer needs to run execute()
