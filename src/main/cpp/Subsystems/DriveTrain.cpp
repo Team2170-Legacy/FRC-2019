@@ -308,6 +308,90 @@ double DriveTrain::GetVelocity() {
     return RPMtoFPS(sparkMaxLeftLead->GetEncoder().GetVelocity());
 }
 
+void DriveTrain::VisionSteerController(double distance, double angle) {
+    // NOTE _v002 uses DISTANCE in ft AND angle in PIXELS
+    // OUTPUT is v in ft/s   AND omega in -rad/s
+
+    // Martin Krucinski 2018-03-07, converted to C++ by Jacob Krucinski
+
+    // This is 2019-03-02 tuning
+    // kP_Vision = 2;
+    // kP_omega = 0.10;
+    // Already set in .h file
+
+    // *** TUNED VALUE 2019-03-01 Kp = 2;%0.5;
+    // Kp_omega = 0.05;
+
+
+    //   2018-03-05  Martin Krucinski
+    //   Try to get robot to track angle better, increase Kp_omega from 8.0 to
+    //   larger value, OR IS IT Robot.omega_max that limits this???
+    //   Robot.omega_max  was set to 1.0!!
+    // Kp_omega = 32;
+
+    // Angle
+
+    double stop_turning_distance   = 1;    // [ft]  distance when steering control stops
+    double start_cruising_distance = 1;    // [ft]  distance when velocity P-control turns off and cruising at constant velocity starts
+
+    double omega_temp;
+    if (distance > stop_turning_distance) {    // distance units are in ft
+        omega_temp = kP_Omega * angle;
+    }
+    else {
+        omega_temp = 0;
+    }
+
+    double omega;
+    if (omega_temp > omega_Max) {
+        omega = omega_Max;
+    }
+    else if  (omega_temp < -omega_Max) {
+        omega = -omega_Max;
+    }
+    else {
+        omega = omega_temp;
+    }
+
+    // Distance
+    //
+    //  MK 2019-03-02
+    //  NOTE THAT VELOCITIES are in ft!!!
+    //  Need to convert v_max to ft !!!
+    //  Jacob: Added to .h file
+
+    double v_offset    = 1;  // [ ft/s ]
+
+    double v_temp;
+    if (distance < start_cruising_distance) {    // distance units are in ft
+        v_temp = v_offset;
+    }
+    else {
+        v_temp = kP_Vision * distance + v_offset;
+    }
+
+    double v;
+    if (v_temp > maxFeetPerSec) {
+        v = maxFeetPerSec;
+    }
+    else if (v_temp < -maxFeetPerSec) {
+        v = -maxFeetPerSec;
+    }
+    else {
+        v = v_temp;
+    }
+
+    // Convert v to vL and vR
+    double vLtemp      = v - omega * d / 2;
+    double vL          = std::max(-maxFeetPerSec, std::min(+maxFeetPerSec, vLtemp));
+    double vRtemp      = v + omega * d / 2;
+    double vR          = std::max(-maxFeetPerSec, std::min(+maxFeetPerSec, vRtemp));
+
+    // Send vL and vR to CAN Spark Maxes
+    pidControllerL->SetReference(vL, rev::ControlType::kVelocity);  
+    pidControllerR->SetReference(-vR, rev::ControlType::kVelocity);  
+}
+
 void DriveTrain::SmartMotionDrive(double distance) {
     pidControllerL->SetReference(distance, rev::ControlType::kSmartMotion);  
     pidControllerR->SetReference(-distance, rev::ControlType::kSmartMotion);  

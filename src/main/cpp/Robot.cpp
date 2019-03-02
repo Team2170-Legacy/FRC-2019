@@ -63,6 +63,11 @@ void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Auto Modes", &chooser);
 
 	initRobot = new InitRobot();
+	
+	cs::UsbCamera camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
+	camera.SetResolution(160, 120);
+	camera.SetFPS(10);
+//+	LiveWindow::GetInstance()->DisableAllTelemetry();
 }
 
 /**
