@@ -50,6 +50,7 @@ private:
 	// Max RPM for motors
 	const double maxRPM = 5600;
 	const double maxFeetPerSec;
+	const double maxAccelPerSec;
 
 	// PID Gains for closed-loop velocity control FOR VISION 
 	const double kP_Vision;

@@ -60,7 +60,9 @@
     "typeinfo": "cpp",
     "utility": "cpp",
     "complex": "cpp",
-    "*.inc": "cpp"
+    "*.inc": "cpp",
+    "optional": "cpp",
+    "string_view": "cpp"
   },
   "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

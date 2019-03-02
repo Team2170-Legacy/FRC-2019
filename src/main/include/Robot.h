@@ -29,6 +29,7 @@
 class Robot : public frc::TimedRobot {
 private:
 	static bool PracticeBot;
+	static bool TankDrive;
 
 public:
 	frc::Command* autonomousCommand = nullptr;
@@ -50,5 +51,6 @@ public:
 	void TeleopInit() override;
 	void TeleopPeriodic() override;
 	static bool IsPracticeBot() { return PracticeBot; }
+	static bool IsTankDrive() {return TankDrive;}
 };
 #endif
