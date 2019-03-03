@@ -56,9 +56,10 @@ private:
 	const double maxAccelPerSec;
 
 	// Gains for closed-loop velocity control FOR VISION 
-	const double kP_Vision = 2;
-	const double kP_Omega = 0.1;
-	const double omega_Max = 2*M_PI;
+	double kP_Vision = 2;
+	double kP_Omega = 0.075;
+	double omega_Max = 2*M_PI;
+	double kP_Align_Master;
 
 public:
 	DriveTrain();
@@ -78,7 +79,7 @@ public:
 	double GetPosition() { return encoderControllerL->GetPosition();}
 	double GetVelocity();
 	void SetLEDOn(bool LEDOn);
-	void VisionSteerController(double distance, double angle);		// returns [v, omega]
+	void VisionSteerController(double distance, double angle, double h_pix_L, double h_pix_R);		// returns [v, omega]
 
 	// Gyro methods
 	void ResetGyro()  { analogGyro->Reset();}

@@ -31,9 +31,11 @@ void VisionDrive::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void VisionDrive::Execute() {
     double e_Target = getVisionError();
-    double distance = getDistanceToTarget(); 
-    //std::cout << "Vision Error: " << error << std::endl;
-    Robot::driveTrain->VisionSteerController(distance, e_Target);
+    double distance = getDistanceToTarget();
+    double h_pix_L = getTargetPixelHeightLeft();
+    double h_pix_R = getTargetPixelHeightRight();
+
+    Robot::driveTrain->VisionSteerController(distance, e_Target, h_pix_L, h_pix_R);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -59,6 +61,18 @@ double VisionDrive::getVisionError() {
 }
 
 double VisionDrive::getDistanceToTarget() {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    return table->GetEntry("distance_to_target").GetDouble(0);
+}
+
+double VisionDrive::getTargetPixelHeightLeft() {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    return table->GetEntry("distance_to_target").GetDouble(0);
+}
+
+double VisionDrive::getTargetPixelHeightRight() {
     auto inst = nt::NetworkTableInstance::GetDefault();
     auto table = inst.GetTable("VisionTable");
     return table->GetEntry("distance_to_target").GetDouble(0);
