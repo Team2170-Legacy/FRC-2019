@@ -71,7 +71,7 @@ OI::OI() {
    joystickDriverButtonHatchDrop.reset(new frc::JoystickButton(driverJoystick.get(), 1));
    joystickDriverButtonHatchDrop->WhenPressed(new DropHatch());
 	joystickDriverButtonVisionLock.reset(new frc::JoystickButton(driverJoystick.get(), 2));
-   joystickDriverButtonVisionLock->WhenPressed(new VisionDrive());
+   joystickDriverButtonVisionLock->WhileHeld(new VisionDrive());
 
 
    if (!Robot::IsPracticeBot()) {

@@ -57,7 +57,7 @@ void VisionDrive::Interrupted() {
 double VisionDrive::getVisionError() {
     auto inst = nt::NetworkTableInstance::GetDefault();
     auto table = inst.GetTable("VisionTable");
-    return table->GetEntry("e_Target").GetDouble(0);
+    return table->GetEntry("x_target_error").GetDouble(0);
 }
 
 double VisionDrive::getDistanceToTarget() {
@@ -69,11 +69,11 @@ double VisionDrive::getDistanceToTarget() {
 double VisionDrive::getTargetPixelHeightLeft() {
     auto inst = nt::NetworkTableInstance::GetDefault();
     auto table = inst.GetTable("VisionTable");
-    return table->GetEntry("distance_to_target").GetDouble(0);
+    return table->GetEntry("left_tape_height").GetDouble(0);
 }
 
 double VisionDrive::getTargetPixelHeightRight() {
     auto inst = nt::NetworkTableInstance::GetDefault();
     auto table = inst.GetTable("VisionTable");
-    return table->GetEntry("distance_to_target").GetDouble(0);
+    return table->GetEntry("right_tape_height").GetDouble(0);
 }

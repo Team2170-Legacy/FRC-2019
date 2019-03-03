@@ -316,7 +316,7 @@ void DriveTrain::VisionSteerController(double distance, double angle, double h_p
     // Before we do anything, make sure to grab all controller gains from SmartDashboard
     kP_Vision       = frc::Preferences::GetInstance()->GetDouble("Vision kP", kP_Vision);
 	kP_Omega        = frc::Preferences::GetInstance()->GetDouble("Vision kP Omega", kP_Omega);
-    omega_Max       = frc::Preferences::GetInstance()->GetDouble("Vision kP Omega MAX", omega_Max);
+    omega_Max       = frc::Preferences::GetInstance()->GetDouble("Vision Omega MAX", omega_Max);
 	kP_Align_Master = frc::Preferences::GetInstance()->GetDouble("Vision kP Alignment", 0.0);
 
     // NOTE _v002 uses DISTANCE in ft AND angle in PIXELS

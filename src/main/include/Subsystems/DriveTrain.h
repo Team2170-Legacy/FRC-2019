@@ -45,7 +45,7 @@ private:
 	const double kGearRatio = 5.95;
 	const double kWheelDiameter;
 	const double ft = 0.305;
-	const double d = (26/12); 			// [ft] distance between wheel centerlines is 26 in*** double check this on robot
+	const double d = (25.75/12); 			// [ft] distance between wheel centerlines is 26 in*** double check this on robot
 
 	// PID Gains for closed-loop velocity control
 	const double kP, kI = 0, kD = 0, kIz = 0, kFF, kMaxOutput = 1, kMinOutput = -1;
