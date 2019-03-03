@@ -11,7 +11,10 @@
 #include "Robot.h"
 
 class RaiseRobot : public frc::Command {
- public:
+private:
+  double mRearCmd;
+  double mFwdCmd;
+public:
   RaiseRobot();
   void Initialize() override;
   void Execute() override;

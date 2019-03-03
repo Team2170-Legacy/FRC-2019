@@ -36,6 +36,8 @@ private:
 	std::shared_ptr<frc::JoystickButton> joystickButtonToggleIntake;
 	std::shared_ptr<frc::JoystickButton> joystickButtonOuttake;
 	std::shared_ptr<frc::JoystickButton> joystickButtonIntake;
+	std::shared_ptr<frc::JoystickButton> joystickButtonRaiseRobot;
+
 	std::shared_ptr<frc::JoystickButton> joystickDriverButtonHatchDrop;
 	std::shared_ptr<frc::JoystickButton> joystickDriverButtonVisionLock;
 

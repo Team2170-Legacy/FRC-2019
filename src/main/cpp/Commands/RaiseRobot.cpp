@@ -14,13 +14,18 @@ RaiseRobot::RaiseRobot() {
 }
 
 // Called just before this Command runs the first time
-void RaiseRobot::Initialize() {}
+void RaiseRobot::Initialize() {
+  mRearCmd = Robot::elevator->kRearLiftPos;
+  mFwdCmd = Robot::elevator->kFwdLiftPos;
+}
 
 // Called repeatedly when this Command is scheduled to run
 void RaiseRobot::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
-bool RaiseRobot::IsFinished() { return false; }
+bool RaiseRobot::IsFinished() { 
+  return (Robot::elevator->RearAtPosition()); 
+}
 
 // Called once after isFinished returns true
 void RaiseRobot::End() {}

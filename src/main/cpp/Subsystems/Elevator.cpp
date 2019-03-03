@@ -47,6 +47,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
     kCargoL1(frc::Preferences::GetInstance()->GetDouble("Cargo L1", 6.0)),
     kCargoL2(frc::Preferences::GetInstance()->GetDouble("Cargo L2", 16.0)),
     kCargoL3(frc::Preferences::GetInstance()->GetDouble("Cargo L3", 26.0)),
+    kRearLiftPos(frc::Preferences::GetInstance()->GetDouble("Rear Lift Pos", 26.0)),
+    kFwdLiftPos(frc::Preferences::GetInstance()->GetDouble("Fwd Lift Pos", -15.0)),
     kHatchReleasePos(frc::Preferences::GetInstance()->GetDouble("Hatch Release", 3.0)) {
 
     // Both robots have "inner elevator"
