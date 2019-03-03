@@ -65,8 +65,14 @@ OI::OI() {
     }
 
    operatorJoystick.reset(new frc::XboxController(1));
-   joystickDriverHatchDrop.reset(new frc::JoystickButton(driverJoystick.get(), 1));
-   joystickDriverHatchDrop->WhenPressed(new DropHatch());
+
+   // driver joystick button setups
+   joystickDriverButtonHatchDrop.reset(new frc::JoystickButton(driverJoystick.get(), 1));
+   joystickDriverButtonHatchDrop->WhenPressed(new DropHatch());
+	joystickDriverButtonVisionLock.reset(new frc::JoystickButton(driverJoystick.get(), 2));
+   joystickDriverButtonVisionLock->WhenPressed(new VisionDrive());
+
+
    if (!Robot::IsPracticeBot()) {
       joystickButtonToggleIntake.reset(new frc::JoystickButton(operatorJoystick.get(), 3));
       joystickButtonToggleIntake->WhenPressed(new IntakeToggle());
