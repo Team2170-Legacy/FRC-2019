@@ -44,6 +44,8 @@ private:
 
 	const double kGearRatio = 5.95;
 	const double kWheelDiameter;
+	const double ft = 0.305;
+	const double d = (26/12); 			// [ft] distance between wheel centerlines is 26 in*** double check this on robot
 
 	// PID Gains for closed-loop velocity control
 	const double kP, kI = 0, kD = 0, kIz = 0, kFF, kMaxOutput = 1, kMinOutput = -1;
@@ -53,8 +55,10 @@ private:
 	const double maxFeetPerSec;
 	const double maxAccelPerSec;
 
-	// PID Gains for closed-loop velocity control FOR VISION 
-	const double kP_Vision;
+	// Gains for closed-loop velocity control FOR VISION 
+	const double kP_Vision = 2;
+	const double kP_Omega = 0.1;
+	const double omega_Max = 2*M_PI;
 
 public:
 	DriveTrain();
@@ -74,6 +78,7 @@ public:
 	double GetPosition() { return encoderControllerL->GetPosition();}
 	double GetVelocity();
 	void SetLEDOn(bool LEDOn);
+	void VisionSteerController(double distance, double angle);		// returns [v, omega]
 
 	// Gyro methods
 	void ResetGyro()  { analogGyro->Reset();}
