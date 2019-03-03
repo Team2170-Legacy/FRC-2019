@@ -40,6 +40,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain"),
     sparkMaxRightFollow.reset(new rev::CANSparkMax(rightFollowDeviceID, rev::CANSparkMax::MotorType::kBrushless));
     analogGyro.reset(new frc::ADXRS450_Gyro());
     differentialDrive.reset(new frc::DifferentialDrive(*sparkMaxLeftLead, *sparkMaxRightLead));
+    spikeLED.reset(new frc::Relay(0));
+    spikeLED->Set(frc::Relay::kForward);
 
     // Set follower modes for sparkMax2 and sparkMax4
     sparkMaxLeftFollow->Follow(*sparkMaxLeftLead);
@@ -311,4 +313,13 @@ double DriveTrain::GetVelocity() {
 void DriveTrain::SmartMotionDrive(double distance) {
     pidControllerL->SetReference(distance, rev::ControlType::kSmartMotion);  
     pidControllerR->SetReference(-distance, rev::ControlType::kSmartMotion);  
+}
+
+void DriveTrain::SetLEDOn(bool LEDOn) {
+    if (LEDOn) {
+        spikeLED->Set(frc::Relay::kForward);
+    }
+    else {
+        spikeLED->Set(frc::Relay::kOff);
+    }
 }

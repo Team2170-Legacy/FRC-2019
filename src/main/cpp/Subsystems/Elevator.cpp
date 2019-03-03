@@ -87,8 +87,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator"),
         talonRear->Config_kI(0, kI_Rear);
         talonRear->Config_kD(0, kD_Rear);
         talonRear->Config_kF(0, kF_Rear);
-        talonRear->ConfigMotionAcceleration(OUTER_MAGIC_ACCEL);      // cnts/100 msec
-        talonRear->ConfigMotionCruiseVelocity(OUTER_MAGIC_VELOCITY); // cnts/100 msec
+        talonRear->ConfigMotionAcceleration(REAR_MAGIC_ACCEL);      // cnts/100 msec
+        talonRear->ConfigMotionCruiseVelocity(REAR_MAGIC_VELOCITY); // cnts/100 msec
 
         sparkMaxOuter.reset(new rev::CANSparkMax(sparkElevatorID, rev::CANSparkMax::MotorType::kBrushless));
         pidOuter.reset(new rev::CANPIDController(sparkMaxOuter->GetPIDController()));
@@ -240,7 +240,7 @@ double Elevator::GetInnerPosInches() {
 }
 
 double Elevator::GetRearPosInches() {
-    // Implement this later!
+    return countsToInchesRear(GetOuterPos());
 }
 
 double Elevator::GetOuterPosInches() {

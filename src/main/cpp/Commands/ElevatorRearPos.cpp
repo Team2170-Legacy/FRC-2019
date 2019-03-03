@@ -31,12 +31,20 @@ void ElevatorRearPos::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ElevatorRearPos::Execute() {
-
+    Robot::elevator->SetInnerPosition(m_position);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool ElevatorRearPos::IsFinished() {
-    return false;
+    bool retVal = false;
+    if (m_instant) {
+        retVal = true;
+    }
+    else if (Robot::elevator->RearAtPosition())
+    {
+        retVal = true;
+    }
+    return retVal;
 }
 
 // Called once after isFinished returns true

@@ -40,6 +40,7 @@ private:
 	std::shared_ptr<rev::CANPIDController> pidControllerR;
 	std::shared_ptr<rev::CANEncoder> encoderControllerL;
 	std::shared_ptr<rev::CANEncoder> encoderControllerR;
+	std::shared_ptr<frc::Relay> spikeLED;
 
 	const double kGearRatio = 5.95;
 	const double kWheelDiameter;
@@ -71,7 +72,8 @@ public:
 	void TankDriveVelocityError(double velocity, double error);
 	void SmartMotionDrive(double distance);
 	double GetPosition() { return encoderControllerL->GetPosition();}
-	double GetVelocity();	
+	double GetVelocity();
+	void SetLEDOn(bool LEDOn);
 
 	// Gyro methods
 	void ResetGyro()  { analogGyro->Reset();}
