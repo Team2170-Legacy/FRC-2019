@@ -30,6 +30,7 @@ class Robot : public frc::TimedRobot {
 private:
 	static bool PracticeBot;
 	static bool TankDrive;
+	static bool RioCamera;
 
 public:
 	frc::Command* autonomousCommand = nullptr;
