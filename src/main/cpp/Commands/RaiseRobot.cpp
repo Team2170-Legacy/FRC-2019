@@ -20,7 +20,9 @@ void RaiseRobot::Initialize() {
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RaiseRobot::Execute() {}
+void RaiseRobot::Execute() {
+  Robot::elevator->SetRearPosition(mRearCmd);
+}
 
 // Make this return true when this Command no longer needs to run execute()
 bool RaiseRobot::IsFinished() { 

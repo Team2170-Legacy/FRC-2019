@@ -82,7 +82,7 @@ OI::OI() {
       joystickButtonIntake.reset(new frc::JoystickButton(operatorJoystick.get(), 1));
       joystickButtonIntake->WhileHeld(new TeleopIntake());
       joystickButtonRaiseRobot.reset(new frc::JoystickButton(operatorJoystick.get(), 4));
-      joystickButtonRaiseRobot->WhileHeld(new RaiseRobot());
+      joystickButtonRaiseRobot->WhenPressed(new RaiseRobot());
    }
    else {
       printf("Intake Buttons Bypassed\n");
