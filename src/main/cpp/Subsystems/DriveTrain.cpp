@@ -407,3 +407,8 @@ void DriveTrain::SetLEDOn(bool LEDOn) {
         spikeLED->Set(frc::Relay::kOff);
     }
 }
+
+void DriveTrain::ZeroPosition() {
+    encoderControllerL->SetPosition(0.0);
+    encoderControllerR->SetPosition(0.0);
+}

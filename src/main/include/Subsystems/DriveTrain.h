@@ -78,6 +78,7 @@ public:
 	double GetPosition() { return encoderControllerL->GetPosition();}
 	double GetVelocity();
 	void SetLEDOn(bool LEDOn);
+	void ZeroPosition();
 	void VisionSteerController(double distance, double angle);		// returns [v, omega]
 
 	// Gyro methods

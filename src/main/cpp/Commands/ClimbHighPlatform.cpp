@@ -9,7 +9,9 @@
 #include "Commands/RaiseRobot.h"
 #include "Commands/ElevatorInnerPos.h"
 #include "Commands/ElevatorOuterPos.h"
+#include "Commands/ElevatorRearPos.h"
 #include "Commands/IntakeUp.h"
+#include "Commands/DriveStraightDistance.h"
 
 ClimbHighPlatform::ClimbHighPlatform() {
   // Add Commands here:
@@ -32,4 +34,9 @@ ClimbHighPlatform::ClimbHighPlatform() {
   AddSequential(new ElevatorInnerPos(0.5, false));
   AddSequential(new ElevatorOuterPos(0.0, false));
   AddSequential(new RaiseRobot());
+  AddSequential(new ElevatorInnerPos(15, false));    // creep forward
+  AddSequential(new ElevatorOuterPos(3.0, false));
+  AddSequential(new DriveStraightDistance(2.0));    // 24" forward
+  AddSequential(new ElevatorRearPos(0.0, false));
+  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
 }
