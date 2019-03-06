@@ -22,11 +22,12 @@ void RaiseRobot::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void RaiseRobot::Execute() {
   Robot::elevator->SetRearPosition(mRearCmd);
+  Robot::elevator->SetOuterPosition(mFwdCmd);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool RaiseRobot::IsFinished() { 
-  return (Robot::elevator->RearAtPosition()); 
+  return (Robot::elevator->RearAtPosition() && Robot::elevator->OuterAtPosition()); 
 }
 
 // Called once after isFinished returns true

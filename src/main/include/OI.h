@@ -40,6 +40,8 @@ private:
 
 	std::shared_ptr<frc::JoystickButton> joystickDriverButtonHatchDrop;
 	std::shared_ptr<frc::JoystickButton> joystickDriverButtonVisionLock;
+	std::shared_ptr<frc::JoystickButton> joystickDriverButtonClimbHigh;
+	std::shared_ptr<frc::JoystickButton> joystickDriverButtonForward;
 
 public:
 	OI();

@@ -22,6 +22,7 @@ void DriveStraightDistance::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void DriveStraightDistance::Execute() {
   Robot::driveTrain->SmartMotionDrive(mDistance);
+  frc::SmartDashboard::PutNumber("Drive Position", Robot::driveTrain->GetPosition());
 }
 
 // Make this return true when this Command no longer needs to run execute()

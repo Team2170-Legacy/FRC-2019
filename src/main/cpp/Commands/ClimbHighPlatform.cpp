@@ -31,12 +31,12 @@ ClimbHighPlatform::ClimbHighPlatform() {
   // a CommandGroup containing them would require both the chassis and the
   // arm.
   AddSequential(new IntakeUp());
-  AddSequential(new ElevatorInnerPos(0.5, false));
+  AddSequential(new ElevatorInnerPos(25.0, false));
   AddSequential(new ElevatorOuterPos(0.0, false));
   AddSequential(new RaiseRobot());
-  AddSequential(new ElevatorInnerPos(15, false));    // creep forward
+  AddSequential(new ElevatorInnerPos(30, false));    // creep forward
   AddSequential(new ElevatorOuterPos(3.0, false));
-  AddSequential(new DriveStraightDistance(2.0));    // 24" forward
+//  AddSequential(new DriveStraightDistance(2.0));    // 24" forward
   AddSequential(new ElevatorRearPos(0.0, false));
-  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
+//  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
 }
