@@ -317,7 +317,7 @@ void DriveTrain::VisionSteerController(double distance, double angle, double h_p
     kP_Vision       = frc::Preferences::GetInstance()->GetDouble("Vision kP", kP_Vision);
 	kP_Omega        = frc::Preferences::GetInstance()->GetDouble("Vision kP Omega", kP_Omega);
     omega_Max       = frc::Preferences::GetInstance()->GetDouble("Vision Omega MAX", omega_Max);
-	kP_Align_Master = frc::Preferences::GetInstance()->GetDouble("Vision kP Alignment", 0.0);
+	kP_Align_Master = frc::Preferences::GetInstance()->GetDouble("Vision kP Alignment", -1.0);
 
     // NOTE _v002 uses DISTANCE in ft AND angle in PIXELS
     // OUTPUT is v in ft/s   AND omega in -rad/s
@@ -358,7 +358,7 @@ void DriveTrain::VisionSteerController(double distance, double angle, double h_p
 
     double omega_temp;
     if (distance > stop_turning_distance) {    // distance units are in ft
-        omega_temp = kP_Omega * angle;
+        omega_temp = kP_Omega * angle + kP_Align * e_h_pix_L_R;
     }
     else {
         omega_temp = 0;
