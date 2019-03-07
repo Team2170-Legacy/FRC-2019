@@ -27,6 +27,10 @@ Intake::Intake() : frc::Subsystem("Intake") {
     AddChild("Servo Left", servoLeft);
     servoRight.reset(new frc::Servo(1));
     AddChild("Servo Right", servoRight);
+
+    // Digital servos have 0.9 to 2.1 msec pwm range
+    servoLeft->SetBounds(0.9, 0.0, 0.0, 0.0, 2.1);
+    servoRight->SetBounds(0.9, 0.0, 0.0, 0.0, 2.1);
     IntakeUp();
 }
 
