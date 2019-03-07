@@ -113,6 +113,7 @@ public:
 	const double kCargoL2;
 	const double kCargoL3;
 	const double kOuterHome = 3.0;
+	const double kInnerHome = 0.1;
 	const double kHatchReleasePos;
 	const double kRearLiftPos;
 	const double kFwdLiftPos;
