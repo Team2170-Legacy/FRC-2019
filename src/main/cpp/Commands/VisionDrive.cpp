@@ -28,7 +28,10 @@ void VisionDrive::Initialize() {
 
 }
 
-// Called repeatedly when this Command is scheduled to run
+/**
+ * @brief Called repeatedly when this Command is scheduled to run
+ * This is a test comment for doxygen code documentation!
+ */
 void VisionDrive::Execute() {
     double e_Target = getVisionError();
     double distance = getDistanceToTarget();
