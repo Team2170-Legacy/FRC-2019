@@ -310,7 +310,15 @@ double DriveTrain::GetVelocity() {
     return RPMtoFPS(sparkMaxLeftLead->GetEncoder().GetVelocity());
 }
 
-void DriveTrain::VisionSteerController(double distance, double angle) {
+void DriveTrain::VisionSteerController(double distance, double angle, double h_pix_L, double h_pix_R) {
+    // NOTE: Controlled updated to v3 by Jacob Krucinski on 3/03/19
+
+    // Before we do anything, make sure to grab all controller gains from SmartDashboard
+    kP_Vision       = frc::Preferences::GetInstance()->GetDouble("Vision kP", kP_Vision);
+	kP_Omega        = frc::Preferences::GetInstance()->GetDouble("Vision kP Omega", kP_Omega);
+    omega_Max       = frc::Preferences::GetInstance()->GetDouble("Vision Omega MAX", omega_Max);
+	kP_Align_Master = frc::Preferences::GetInstance()->GetDouble("Vision kP Alignment", -1.0);
+
     // NOTE _v002 uses DISTANCE in ft AND angle in PIXELS
     // OUTPUT is v in ft/s   AND omega in -rad/s
 
@@ -331,14 +339,26 @@ void DriveTrain::VisionSteerController(double distance, double angle) {
     //   Robot.omega_max  was set to 1.0!!
     // Kp_omega = 32;
 
+    //   Jacob Krucinski 2019, Addition of wall alignment control
+    //                   utilizing Priyanshu's L & R target height estimates
+
+    //*** CONSTANT GAIN DOES NOT WORK, TOO NON LINEAR, USE DISTANCE VARYING GAIN
+    //***Kp_align = -1;  % needs NEGATIVE since we define the alignment error as e_h_pix_L_R, L - R heights!
+    //   Positive omega means robot turns to the LEFT
+    double ref_distance =  3;  // [ft] distance where gain scaling is 1.0
+    double kP_Align = kP_Align_Master * (distance / ref_distance); 
+
     // Angle
 
     double stop_turning_distance   = 1;    // [ft]  distance when steering control stops
     double start_cruising_distance = 1;    // [ft]  distance when velocity P-control turns off and cruising at constant velocity starts
 
+    // Error for target heights
+    double e_h_pix_L_R = h_pix_L - h_pix_R;
+
     double omega_temp;
     if (distance > stop_turning_distance) {    // distance units are in ft
-        omega_temp = kP_Omega * angle;
+        omega_temp = kP_Omega * angle + kP_Align * e_h_pix_L_R;
     }
     else {
         omega_temp = 0;
