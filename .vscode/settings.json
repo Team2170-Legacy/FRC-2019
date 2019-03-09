@@ -64,5 +64,6 @@
     "optional": "cpp",
     "string_view": "cpp"
   },
-  "C_Cpp.intelliSenseEngineFallback": "Enabled"
+  "C_Cpp.intelliSenseEngineFallback": "Enabled",
+  "C_Cpp.default.configurationProvider": "vscode-wpilib"
 }

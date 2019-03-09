@@ -13,17 +13,33 @@ DropHatch::DropHatch() {
 	Requires(Robot::elevator.get());
 }
 
-// Called just before this Command runs the first time
+/**
+ * @brief Called just before this Command runs the first time
+ * 
+ * Set the new inner elevator position to 3 inches below current position
+ * in order to release grip on the hatch.
+ */
 void DropHatch::Initialize() {
   mNewPosition = Robot::elevator->GetInnerPosInches() - Robot::elevator->kHatchReleasePos;
 }
 
-// Called repeatedly when this Command is scheduled to run
+/**
+ * @brief Called repeatedly when this Command is scheduled to run
+ * 
+ * Constantly set the inner elevator position to mNewPosition.
+ */
 void DropHatch::Execute() {
   Robot::elevator->SetInnerPosition(mNewPosition);
 }
 
-// Make this return true when this Command no longer needs to run execute()
+/**
+ * @brief Make this return true when this Command no longer needs to run execute()
+ * 
+ * Terminate this command once the inner elevator reaches the desired position.
+ * 
+ * @return true 
+ * @return false 
+ */
 bool DropHatch::IsFinished() { 
   bool retVal = false;
   if (Robot::elevator->InnerAtPosition()) {
@@ -32,9 +48,12 @@ bool DropHatch::IsFinished() {
   return retVal;
 }
 
-// Called once after isFinished returns true
+/**
+ * @brief Called once after isFinished returns true
+ */
 void DropHatch::End() {}
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
+/**
+ * @brief Called when another command which requires one or more of the same subsystems is scheduled to run
+ */
 void DropHatch::Interrupted() {}

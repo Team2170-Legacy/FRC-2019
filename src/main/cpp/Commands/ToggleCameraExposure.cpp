@@ -15,7 +15,13 @@ ToggleCameraExposure::ToggleCameraExposure() {
   // eg. Requires(Robot::chassis.get());
 }
 
-// Called once when the command executes
+/**
+ * @brief Get exposure from VisionTable NetworkTable and change it 
+ * between FOR_DRIVE and FOR_VISION
+ * 
+ * @param FOR_DRIVE = 40.0
+ * @param FOR_VISION = 0.0
+ */
 void ToggleCameraExposure::Initialize() {
     if (toggle) {
         auto inst = nt::NetworkTableInstance::GetDefault();

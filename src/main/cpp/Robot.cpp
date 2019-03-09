@@ -25,6 +25,15 @@ bool Robot::PracticeBot;
 bool Robot::TankDrive;
 bool Robot::RioCamera;
 
+/**
+ * @brief Initializes the robot
+ * 
+ * 1. Make sure all joysticks are plugged in for the selected driveMode
+ * 2. Check if the robot is the PracticeBot
+ * 3. Check if any cameras can be used
+ * 4. Reset all OI objects/pointers
+ * 
+ */
 void Robot::RobotInit() {
 	int DriveMode = frc::Preferences::GetInstance()->GetInt("Drive Mode", 1);
 	if (DriveMode == 0 || DriveMode == 2) {
@@ -78,11 +87,23 @@ void Robot::DisabledInit(){
 
 }
 
+/**
+ * @brief This function is called periodcally while the robot is disabled
+ * 
+ * In our case, all elevator zero positions are being updated.
+ * 
+ */
 void Robot::DisabledPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
 	Robot::elevator->UpdateDisabledElevators();		// update commanded position no jumps when enabled
 }
 
+/**
+ * @brief This function is called once when the robot is autonomous mode
+ * 
+ * In our case, the initRobot command group is called
+ * 
+ */
 void Robot::AutonomousInit() {
 	// No autonomous commands (although we could have made initRobot an autonomous commmand)
 	// autonomousCommand = chooser.GetSelected();
@@ -91,10 +112,19 @@ void Robot::AutonomousInit() {
 	initRobot->Start();
 }
 
+/**
+ * @brief This function is called periodically when the robot is autonomous mode
+ * 
+ * In our case, the scheduler is run.
+ * 
+ */
 void Robot::AutonomousPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
 }
 
+/**
+ * @brief This function is called once in teleop mode
+ */
 void Robot::TeleopInit() {
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
@@ -105,6 +135,9 @@ void Robot::TeleopInit() {
 	
 }
 
+/**
+ * @brief This function is called periodically in teleop mode
+ */
 void Robot::TeleopPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
 }

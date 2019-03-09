@@ -13,23 +13,39 @@ RaiseRobot::RaiseRobot() {
 	Requires(Robot::elevator.get());
 }
 
-// Called just before this Command runs the first time
+/**
+ * @brief  Called just before this Command runs the first time
+ * 
+ * Grab kRearLiftPos and kFwdLiftPos from Elevator class.
+ */
 void RaiseRobot::Initialize() {
   mRearCmd = Robot::elevator->kRearLiftPos;
   mFwdCmd = Robot::elevator->kFwdLiftPos;
 }
 
-// Called repeatedly when this Command is scheduled to run
+/**
+ * @brief Called repeatedly when this Command is scheduled to run
+ * 
+ * Set the rear elevator position to mRearCmd
+ * Set the outer elevator position to mFwdCmd
+ */
 void RaiseRobot::Execute() {}
 
-// Make this return true when this Command no longer needs to run execute()
+/**
+ * @brief Make this return true when this Command no longer needs to run execute()
+ * 
+ * Finish this command when the rear and outer elevator is in position (mRearCmd) 
+ */
 bool RaiseRobot::IsFinished() { 
   return (Robot::elevator->RearAtPosition()); 
 }
 
-// Called once after isFinished returns true
+/**
+ * @brief Called once after isFinished returns true
+ */
 void RaiseRobot::End() {}
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
+/**
+ * @brief Called when another command which requires one or more of the same subsystems is scheduled to run
+ */
 void RaiseRobot::Interrupted() {}
