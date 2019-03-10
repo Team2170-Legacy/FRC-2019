@@ -16,6 +16,7 @@ private:
   double mFwdCmd;
 public:
   RaiseRobot();
+  RaiseRobot(double fwd, double rear);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

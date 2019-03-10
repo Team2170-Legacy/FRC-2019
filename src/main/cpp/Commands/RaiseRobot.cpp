@@ -7,12 +7,16 @@
 
 #include "Commands/RaiseRobot.h"
 
-RaiseRobot::RaiseRobot() {
+RaiseRobot::RaiseRobot() : frc::Command() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
 	Requires(Robot::elevator.get());
 }
 
+RaiseRobot::RaiseRobot(double fwd, double rear) : frc::Command() {
+  mRearCmd = rear;
+  mFwdCmd = fwd;
+}
 // Called just before this Command runs the first time
 void RaiseRobot::Initialize() {
   mRearCmd = Robot::elevator->kRearLiftPos;

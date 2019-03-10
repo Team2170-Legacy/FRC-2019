@@ -58,7 +58,7 @@ OI::OI() {
     }
     else {
       pushButtonBlue3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 8));
-      pushButtonBlue3->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL3, Robot::elevator->kHatchL2));
+      pushButtonBlue3->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL3, Robot::elevator->kHatchL2+3.0));
       pushButtonBlue2.reset(new frc::JoystickButton(pushbuttonPanel.get(), 7));
       pushButtonBlue2->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL2, Robot::elevator->kHatchL2));
       pushButtonBlue1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 6));
@@ -66,7 +66,7 @@ OI::OI() {
       pushButtonRed3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 5));
       pushButtonRed3->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kHatchL3, Robot::elevator->kHatchL2));
       pushButtonRed2.reset(new frc::JoystickButton(pushbuttonPanel.get(), 4));
-      pushButtonRed2->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kInnerHome, Robot::elevator->kHatchL2));
+      pushButtonRed2->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kInnerHome+2, Robot::elevator->kHatchL2));
       pushButtonRed1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 3));
       pushButtonRed1->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kHatchL1, Robot::elevator->kOuterHome));
     }
@@ -93,8 +93,8 @@ OI::OI() {
    joystickDriverButtonVisionLock->WhileHeld(new VisionDrive());
 	joystickDriverButtonClimbHigh.reset(new frc::JoystickButton(driverJoystick.get(), 4));
    joystickDriverButtonClimbHigh->WhenPressed(new ClimbHighPlatform());
-	joystickDriverButtonForward.reset(new frc::JoystickButton(driverJoystick.get(), 5));
-   joystickDriverButtonForward->WhenPressed(new DriveStraightDistance(2.0));
+//	joystickDriverButtonForward.reset(new frc::JoystickButton(driverJoystick.get(), 3));
+//   joystickDriverButtonForward->WhenPressed(new DriveStraightDistance(2.0));
    joystickDriverButtonExposureToggle.reset(new frc::JoystickButton(driverJoystick.get(), 3));
    joystickDriverButtonExposureToggle->WhenPressed(new ToggleCameraExposure());
 
