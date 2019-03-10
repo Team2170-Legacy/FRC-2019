@@ -171,12 +171,6 @@ void Elevator::ControlInnerPosition(bool bMagic) {
 void Elevator::ControlOuterPosition(bool bMagic) {
     // calculate in inches and command in inches thanks to position scaling
     pidOuter->SetReference(mOuterPosCmd, rev::ControlType::kPosition);
-    if (GetOuterPosInches() > 0.0) {
-        pidOuter->SetOutputRange(kMinOutput, kMaxOutput);
-    }
-    else {
-        pidOuter->SetOutputRange(0.75 * kMinOutput, 0.75 * kMaxOutput);
-    }
     frc::SmartDashboard::PutNumber("Outer Elevator", GetOuterPosInches());
 }
 
@@ -317,4 +311,10 @@ void Elevator::UpdateDisabledElevators() {
         talonInnerFront->SetSelectedSensorPosition(0, 0);
         mInnerPosCmd = 0.0;
     }
+}
+
+void Elevator::RigForClimb() {
+   talonInnerFront->ConfigMotionCruiseVelocity(INNER_MAGIC_VELOCITY / 3.0);
+   talonInnerFront->ConfigMotionAcceleration(INNER_MAGIC_ACCEL / 3.0);
+   pidOuter->SetOutputRange(0.5 * kMinOutput, 0.5 * kMaxOutput);
 }

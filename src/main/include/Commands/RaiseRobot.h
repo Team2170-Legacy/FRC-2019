@@ -14,6 +14,7 @@ class RaiseRobot : public frc::Command {
 private:
   double mRearCmd;
   double mFwdCmd;
+  bool bCustomMove = false;
 public:
   RaiseRobot();
   RaiseRobot(double fwd, double rear);

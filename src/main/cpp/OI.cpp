@@ -39,7 +39,7 @@
 
 OI::OI() {
     // Process operator interface input here.
-    pushbuttonPanel.reset(new frc::Joystick(2));
+//    pushbuttonPanel.reset(new frc::Joystick(2));
     
     if (Robot::IsPracticeBot()) {
       pushButtonBlue3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 8));
@@ -56,23 +56,23 @@ OI::OI() {
       pushButtonRed1->WhenPressed(new ElevatorInnerPos(Robot::elevator->kHatchL1, false));
     }
     else {
-      pushButtonBlue3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 8));
-      pushButtonBlue3->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL3, Robot::elevator->kHatchL2+3.0));
+//      pushButtonBlue3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 8));
+//      pushButtonBlue3->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL3, Robot::elevator->kHatchL2+3.0));
       frc::SmartDashboard::PutData("Cargo L3", new ElevatorInnerOuterPos(Robot::elevator->kCargoL3, Robot::elevator->kHatchL2+3.0));
-      pushButtonBlue2.reset(new frc::JoystickButton(pushbuttonPanel.get(), 7));
-      pushButtonBlue2->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL2, Robot::elevator->kHatchL2));
+//      pushButtonBlue2.reset(new frc::JoystickButton(pushbuttonPanel.get(), 7));
+//      pushButtonBlue2->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL2, Robot::elevator->kHatchL2));
       frc::SmartDashboard::PutData("Cargo L2", new ElevatorInnerOuterPos(Robot::elevator->kCargoL2, Robot::elevator->kHatchL2));
-      pushButtonBlue1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 6));
-      pushButtonBlue1->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL1, Robot::elevator->kOuterHome));
+//      pushButtonBlue1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 6));
+//      pushButtonBlue1->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kCargoL1, Robot::elevator->kOuterHome));
       frc::SmartDashboard::PutData("Cargo L1", new ElevatorInnerOuterPos(Robot::elevator->kCargoL1, Robot::elevator->kOuterHome));
-      pushButtonRed3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 5));
-      pushButtonRed3->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kHatchL3, Robot::elevator->kHatchL2));
+//      pushButtonRed3.reset(new frc::JoystickButton(pushbuttonPanel.get(), 5));
+ //     pushButtonRed3->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kHatchL3, Robot::elevator->kHatchL2));
       frc::SmartDashboard::PutData("Hatch L3", new ElevatorInnerOuterPos(Robot::elevator->kHatchL3, Robot::elevator->kHatchL2));
-      pushButtonRed2.reset(new frc::JoystickButton(pushbuttonPanel.get(), 4));
-      pushButtonRed2->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kInnerHome+2, Robot::elevator->kHatchL2));
+//      pushButtonRed2.reset(new frc::JoystickButton(pushbuttonPanel.get(), 4));
+//      pushButtonRed2->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kInnerHome+2, Robot::elevator->kHatchL2));
       frc::SmartDashboard::PutData("Hatch L2", new ElevatorInnerOuterPos(Robot::elevator->kInnerHome+2, Robot::elevator->kHatchL2));
-      pushButtonRed1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 3));
-      pushButtonRed1->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kHatchL1, Robot::elevator->kOuterHome));
+//      pushButtonRed1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 3));
+//      pushButtonRed1->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kHatchL1, Robot::elevator->kOuterHome));
       frc::SmartDashboard::PutData("Hatch L1", new ElevatorInnerOuterPos(Robot::elevator->kHatchL1, Robot::elevator->kOuterHome));
     }
 

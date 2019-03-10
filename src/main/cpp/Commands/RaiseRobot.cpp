@@ -14,13 +14,18 @@ RaiseRobot::RaiseRobot() : frc::Command() {
 }
 
 RaiseRobot::RaiseRobot(double fwd, double rear) : frc::Command() {
-  mRearCmd = rear;
-  mFwdCmd = fwd;
+Requires(Robot::elevator.get());
+bCustomMove = true;         // TODO fix this yuckieness
+mRearCmd = rear;
+mFwdCmd = fwd;
 }
 // Called just before this Command runs the first time
 void RaiseRobot::Initialize() {
-  mRearCmd = Robot::elevator->kRearLiftPos;
-  mFwdCmd = Robot::elevator->kFwdLiftPos;
+  Robot::elevator->RigForClimb();
+  if (!bCustomMove) {
+    mRearCmd = Robot::elevator->kRearLiftPos;
+    mFwdCmd = Robot::elevator->kFwdLiftPos;
+  }
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -35,7 +40,9 @@ bool RaiseRobot::IsFinished() {
 }
 
 // Called once after isFinished returns true
-void RaiseRobot::End() {}
+void RaiseRobot::End() {
+  printf("Climb Step Complete\n");
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run

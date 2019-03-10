@@ -37,7 +37,7 @@
 #define REAR_LARGE_SPROCKET_PITCH 1.751
 #define REAR_DRUM_DIAMETER 1.22
 #define REAR_INCHES_PER_ROTAION ((REAR_SMALL_SPROCKET_PITCH / REAR_LARGE_SPROCKET_PITCH) * REAR_DRUM_DIAMETER * M_PI)
-#define IN_POSITION_DEADBAND 0.5
+#define IN_POSITION_DEADBAND 1.0
 #define REAR_MAGIC_VELOCITY	450			// 3"/sec = 0.3"/100 msec ~ 0.1 rev/100 msec = 393 cnts/100 msec
 #define REAR_MAGIC_ACCEL (REAR_MAGIC_VELOCITY * 5)
 /**
@@ -142,6 +142,6 @@ public:
 	void SlewInner(double slew);
 	void SlewOuter(double slew);
 	void UpdateDisabledElevators();
+	void RigForClimb();
 };
-
 #endif

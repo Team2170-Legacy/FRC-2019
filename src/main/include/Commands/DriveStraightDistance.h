@@ -13,6 +13,7 @@
 class DriveStraightDistance : public frc::Command {
  private:
  double mDistance;
+ double mSavedSpeed;
  
  public:
   DriveStraightDistance(double distance);

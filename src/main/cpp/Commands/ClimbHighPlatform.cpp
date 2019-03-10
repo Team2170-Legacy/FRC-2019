@@ -33,13 +33,15 @@ ClimbHighPlatform::ClimbHighPlatform() {
   AddSequential(new IntakeUp());
   AddSequential(new ElevatorInnerPos(25.0, false));
   AddSequential(new ElevatorOuterPos(0.0, false));
+  AddSequential(new frc::PrintCommand("Raise Robot"));
   AddSequential(new RaiseRobot());
-  AddSequential(new frc::WaitCommand(3.0));
-  AddSequential(new ElevatorInnerPos(30, false));    // creep forward
-  AddSequential(new frc::WaitCommand(3.0));
-  AddSequential(new RaiseRobot(3.0, 0.0));
-//  AddSequential(new ElevatorOuterPos(3.0, false));
-//  AddSequential(new DriveStraightDistance(2.0));    // 24" forward
-//  AddSequential(new ElevatorRearPos(0.0, false));
-//  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
+  AddSequential(new frc::PrintCommand("WAIT"));
+  AddSequential(new frc::WaitCommand(1.0));
+  AddSequential(new frc::PrintCommand("CREEP"));
+  AddSequential(new ElevatorInnerPos(37, false));    // creep forward
+  AddSequential(new frc::PrintCommand("LOWER"));
+  AddSequential(new ElevatorOuterPos(3.0, false));
+  AddSequential(new DriveStraightDistance(2.0));    // 24" forward
+  AddSequential(new ElevatorRearPos(0.0, false));
+  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
 }

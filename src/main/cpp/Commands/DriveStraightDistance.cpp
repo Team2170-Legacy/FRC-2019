@@ -10,29 +10,32 @@
 DriveStraightDistance::DriveStraightDistance(double distance) : frc::Command() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
-  Requires(Robot::elevator.get());
+  Requires(Robot::driveTrain.get());
   mDistance = distance;
 }
 
 // Called just before this Command runs the first time
 void DriveStraightDistance::Initialize() {
   Robot::driveTrain->ZeroPosition();
+  mSavedSpeed = Robot::driveTrain->GetMaxVelocity();
+  Robot::driveTrain->SetMaxVelocity(3.0);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveStraightDistance::Execute() {
   Robot::driveTrain->SmartMotionDrive(mDistance);
   frc::SmartDashboard::PutNumber("Drive Position", Robot::driveTrain->GetPosition());
-  printf("Drive Straight %f\n", mDistance);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveStraightDistance::IsFinished() { 
-  return fabs((Robot::driveTrain->GetPosition() - mDistance) < 0.5);
+  return (fabs(Robot::driveTrain->GetPosition() - mDistance) < 0.5);
 }
 
 // Called once after isFinished returns true
-void DriveStraightDistance::End() {}
+void DriveStraightDistance::End() {
+  Robot::driveTrain->SetMaxVelocity(mSavedSpeed);
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
