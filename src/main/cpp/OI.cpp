@@ -34,6 +34,7 @@
 #include "Commands/DropHatch.h"
 #include "Commands/RaiseRobot.h"
 #include "Commands/ClimbHighPlatform.h"
+#include "Commands/ClimbLowPlatform.h"
 #include "Commands/DriveStraightDistance.h"
 #include "Commands/ElevatorInnerOuterPos.h"
 
@@ -74,6 +75,9 @@ OI::OI() {
 //      pushButtonRed1.reset(new frc::JoystickButton(pushbuttonPanel.get(), 3));
 //      pushButtonRed1->WhenPressed(new ElevatorInnerOuterPos(Robot::elevator->kHatchL1, Robot::elevator->kOuterHome));
       frc::SmartDashboard::PutData("Hatch L1", new ElevatorInnerOuterPos(Robot::elevator->kHatchL1, Robot::elevator->kOuterHome));
+
+      frc::SmartDashboard::PutData("Climb High", new ClimbHighPlatform());
+      frc::SmartDashboard::PutData("Climb Low", new ClimbLowPlatform());
     }
 
    driverJoystick.reset(new frc::Joystick(0));
@@ -89,8 +93,6 @@ OI::OI() {
    joystickDriverButtonHatchDrop->WhenPressed(new DropHatch());
 	joystickDriverButtonVisionLock.reset(new frc::JoystickButton(driverJoystick.get(), 2));
    joystickDriverButtonVisionLock->WhileHeld(new VisionDrive());
-	joystickDriverButtonClimbHigh.reset(new frc::JoystickButton(driverJoystick.get(), 4));
-   joystickDriverButtonClimbHigh->WhenPressed(new ClimbHighPlatform());
 //	joystickDriverButtonForward.reset(new frc::JoystickButton(driverJoystick.get(), 3));
 //   joystickDriverButtonForward->WhenPressed(new DriveStraightDistance(2.0));
    joystickDriverButtonExposureToggle.reset(new frc::JoystickButton(driverJoystick.get(), 3));
