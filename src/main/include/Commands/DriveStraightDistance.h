@@ -10,14 +10,13 @@
 #include <frc/commands/Command.h>
 #include "Robot.h"
 
-class RaiseRobot : public frc::Command {
-private:
-  double mRearCmd;
-  double mFwdCmd;
-  bool bCustomMove = false;
-public:
-  RaiseRobot();
-  RaiseRobot(double fwd, double rear);
+class DriveStraightDistance : public frc::Command {
+ private:
+ double mDistance;
+ double mSavedSpeed;
+ 
+ public:
+  DriveStraightDistance(double distance);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

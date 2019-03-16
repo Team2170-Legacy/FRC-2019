@@ -61,6 +61,17 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain"),
     sparkMaxLeftFollow->Follow(*sparkMaxLeftLead);
     sparkMaxRightFollow->Follow(*sparkMaxRightLead);
 
+    sparkMaxLeftLead->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 20);
+    sparkMaxRightLead->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 20);
+
+
+    sparkMaxLeftFollow->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 250);
+    sparkMaxLeftFollow->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 500);
+    sparkMaxLeftFollow->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 500);
+    sparkMaxRightFollow->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 250);
+    sparkMaxRightFollow->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 500);
+    sparkMaxRightFollow->SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 500);
+
     pidControllerL.reset(new rev::CANPIDController(sparkMaxLeftLead->GetPIDController()));
     pidControllerR.reset(new rev::CANPIDController(sparkMaxRightLead->GetPIDController()));
     encoderControllerL.reset(new rev::CANEncoder(sparkMaxLeftLead->GetEncoder()));
@@ -543,4 +554,9 @@ void DriveTrain::SetLEDOn(bool LEDOn) {
     else {
         spikeLED->Set(frc::Relay::kOff);
     }
+}
+
+void DriveTrain::ZeroPosition() {
+    encoderControllerL->SetPosition(0.0);
+    encoderControllerR->SetPosition(0.0);
 }

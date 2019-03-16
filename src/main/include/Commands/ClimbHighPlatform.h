@@ -7,20 +7,9 @@
 
 #pragma once
 
-#include <frc/commands/Command.h>
-#include "Robot.h"
+#include <frc/commands/CommandGroup.h>
 
-class RaiseRobot : public frc::Command {
-private:
-  double mRearCmd;
-  double mFwdCmd;
-  bool bCustomMove = false;
-public:
-  RaiseRobot();
-  RaiseRobot(double fwd, double rear);
-  void Initialize() override;
-  void Execute() override;
-  bool IsFinished() override;
-  void End() override;
-  void Interrupted() override;
+class ClimbHighPlatform : public frc::CommandGroup {
+ public:
+  ClimbHighPlatform();
 };

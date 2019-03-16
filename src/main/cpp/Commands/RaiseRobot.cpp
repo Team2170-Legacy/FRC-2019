@@ -7,7 +7,7 @@
 
 #include "Commands/RaiseRobot.h"
 
-RaiseRobot::RaiseRobot() {
+RaiseRobot::RaiseRobot() : frc::Command() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
 	Requires(Robot::elevator.get());
@@ -18,9 +18,19 @@ RaiseRobot::RaiseRobot() {
  * 
  * Grab kRearLiftPos and kFwdLiftPos from Elevator class.
  */
+RaiseRobot::RaiseRobot(double fwd, double rear) : frc::Command() {
+Requires(Robot::elevator.get());
+bCustomMove = true;         // TODO fix this yuckieness
+mRearCmd = rear;
+mFwdCmd = fwd;
+}
+// Called just before this Command runs the first time
 void RaiseRobot::Initialize() {
-  mRearCmd = Robot::elevator->kRearLiftPos;
-  mFwdCmd = Robot::elevator->kFwdLiftPos;
+  Robot::elevator->RigForClimb();
+  if (!bCustomMove) {
+    mRearCmd = Robot::elevator->kRearLiftPos;
+    mFwdCmd = Robot::elevator->kFwdLiftPos;
+  }
 }
 
 /**
@@ -29,7 +39,10 @@ void RaiseRobot::Initialize() {
  * Set the rear elevator position to mRearCmd
  * Set the outer elevator position to mFwdCmd
  */
-void RaiseRobot::Execute() {}
+void RaiseRobot::Execute() {
+  Robot::elevator->SetRearPosition(mRearCmd);
+  Robot::elevator->SetOuterPosition(mFwdCmd);
+}
 
 /**
  * @brief Make this return true when this Command no longer needs to run execute()
@@ -37,13 +50,15 @@ void RaiseRobot::Execute() {}
  * Finish this command when the rear and outer elevator is in position (mRearCmd) 
  */
 bool RaiseRobot::IsFinished() { 
-  return (Robot::elevator->RearAtPosition()); 
+  return (Robot::elevator->RearAtPosition() && Robot::elevator->OuterAtPosition()); 
 }
 
 /**
  * @brief Called once after isFinished returns true
  */
-void RaiseRobot::End() {}
+void RaiseRobot::End() {
+  printf("Climb Step Complete\n");
+}
 
 /**
  * @brief Called when another command which requires one or more of the same subsystems is scheduled to run
