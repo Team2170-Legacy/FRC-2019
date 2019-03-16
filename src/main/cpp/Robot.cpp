@@ -132,6 +132,7 @@ void Robot::TeleopInit() {
 	// these lines or comment it out.
 //	if (autonomousCommand != nullptr)
 //		autonomousCommand->Cancel();
+initRobot->Start();
 	
 }
 

@@ -46,7 +46,7 @@ void ElevatorRearPos::Initialize() {
  * Constantly sets the rear elevator position to m_position.
  */
 void ElevatorRearPos::Execute() {
-    Robot::elevator->SetInnerPosition(m_position);
+    Robot::elevator->SetRearPosition(m_position);
 }
 
 /**

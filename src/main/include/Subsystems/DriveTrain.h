@@ -79,6 +79,7 @@ public:
 	double GetPosition() { return encoderControllerL->GetPosition();}
 	double GetVelocity();
 	void SetLEDOn(bool LEDOn);
+	void ZeroPosition();
 	void VisionSteerController(double distance, double angle, double h_pix_L, double h_pix_R);		// returns [v, omega]
 
 	// Gyro methods
@@ -87,6 +88,12 @@ public:
 
 	double FPStoRPM(double fps);
 	double RPMtoFPS(double rpm);
+
+	void SetMaxVelocity(double fps) {
+		pidControllerL->SetSmartMotionMaxVelocity(fps);
+    	pidControllerR->SetSmartMotionMaxVelocity(fps);
+	}
+	double GetMaxVelocity() { return pidControllerL->GetSmartMotionMaxVelocity();}
 };
 
 #endif
