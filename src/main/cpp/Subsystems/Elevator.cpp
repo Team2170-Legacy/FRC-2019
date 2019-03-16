@@ -213,8 +213,10 @@ bool Elevator::RearAtPosition() {
 
 void Elevator::StopAllElevators() {
     StopInner();
-    StopOuter();
-    StopRear();
+    if (!Robot::IsPracticeBot()) {
+        StopOuter();
+        StopRear();
+    }
 }
 
 void Elevator::StopInner() {
