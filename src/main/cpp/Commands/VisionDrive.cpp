@@ -35,12 +35,18 @@ void VisionDrive::Initialize() {
  * This is a test comment for doxygen code documentation!
  */
 void VisionDrive::Execute() {
-    double e_Target = getVisionError();
-    double distance = getDistanceToTarget();
-    double h_pix_L = getTargetPixelHeightLeft();
-    double h_pix_R = getTargetPixelHeightRight();
+    // double e_Target = getVisionError();
+    // double distance = getDistanceToTarget();
+    // double h_pix_L = getTargetPixelHeightLeft();
+    // double h_pix_R = getTargetPixelHeightRight();
+    double fl_distance = getFloorLineDistance();
+    double vt_distance = getDistanceToTarget();
+    double fl_angle = getFloorLineAngle();
+    double vt_angle = getTargetAngleDiff();
+    double fl_error = getFloorLineError();
+    double vt_error = getVisionError();
 
-    Robot::driveTrain->VisionSteerController(distance, e_Target, h_pix_L, h_pix_R);
+    //Robot::driveTrain->VisionSteerController(distance, e_Target, h_pix_L, h_pix_R);
 }
 
 /**
@@ -108,4 +114,48 @@ double VisionDrive::getTargetPixelHeightRight() {
     auto inst = nt::NetworkTableInstance::GetDefault();
     auto table = inst.GetTable("VisionTable");
     return table->GetEntry("right_tape_height").GetDouble(0);
+}
+
+/**
+ * @brief Get the difference between the vision target angles from VisionTable NetworkTable
+ * 
+ * @return right_tape_height 
+ */
+double VisionDrive::getTargetAngleDiff() {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    return table->GetEntry("tape_angle_difference").GetDouble(0);
+}
+
+/**
+ * @brief Get the floor line angle from VisionTable NetworkTable
+ * 
+ * @return fl_target_angle 
+ */
+double VisionDrive::getFloorLineAngle() {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    return table->GetEntry("fl_target_angle").GetDouble(0);
+}
+
+/**
+ * @brief Get the floor line angle from VisionTable NetworkTable
+ * 
+ * @return fl_target_angle 
+ */
+double VisionDrive::getFloorLineDistance() {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    return table->GetEntry("fl_target_Distance").GetDouble(0);
+}
+
+/**
+ * @brief Get the floor line error from VisionTable NetworkTable
+ * 
+ * @return fl_target_error
+ */
+double VisionDrive::getFloorLineError() {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    return table->GetEntry("fl_target_error").GetDouble(0);
 }

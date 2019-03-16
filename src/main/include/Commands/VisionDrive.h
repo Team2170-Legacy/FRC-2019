@@ -46,6 +46,10 @@ private:
 	double getDistanceToTarget();
 	double getTargetPixelHeightLeft();
 	double getTargetPixelHeightRight();
+	double getTargetAngleDiff();	
+	double getFloorLineAngle();
+	double getFloorLineDistance();
+	double getFloorLineError();
 };
 
 #endif
