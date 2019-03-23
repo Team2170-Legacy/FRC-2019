@@ -8,7 +8,7 @@
 #include "Commands/ToggleCameraExposure.h"
 bool toggle = true;
 const double FOR_DRIVE = 40.0;
-const double FOR_VISION = 0.0;
+const double FOR_VISION = 15.0;
 
 ToggleCameraExposure::ToggleCameraExposure() {
   // Use Requires() here to declare subsystem dependencies

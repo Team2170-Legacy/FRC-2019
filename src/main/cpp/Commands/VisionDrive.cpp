@@ -47,7 +47,7 @@ void VisionDrive::Execute() {
     double fl_error = getFloorLineError();
     double vt_error = getVisionError();
 
-    //Robot::driveTrain->VisionSteerController(distance, e_Target, h_pix_L, h_pix_R);
+    Robot::driveTrain->VisionSteerController(vt_angle, vt_error, vt_distance);
 }
 
 /**
@@ -125,7 +125,7 @@ double VisionDrive::getTargetPixelHeightRight() {
 double VisionDrive::getTargetAngleDiff() {
     auto inst = nt::NetworkTableInstance::GetDefault();
     auto table = inst.GetTable("VisionTable");
-    return table->GetEntry("tape_angle_difference").GetDouble(0);
+    return table->GetEntry("tape_align_error").GetDouble(0);
 }
 
 /**

@@ -80,7 +80,7 @@ public:
 	double GetVelocity();
 	void SetLEDOn(bool LEDOn);
 	void ZeroPosition();
-	void VisionSteerController(double distance, double e_target, double e_align);		// returns [v, omega]
+	void VisionSteerController(double angle, double error, double distance);		// returns [v, omega]
 
 	// Gyro methods
 	void ResetGyro()  { analogGyro->Reset();}

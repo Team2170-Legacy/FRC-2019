@@ -428,7 +428,7 @@ double DriveTrain::GetVelocity() {
  * @param h_pix_L   (height [pixels] of left vision target)
  * @param h_pix_R   (height [pixels] of left vision target)
  */
-void DriveTrain::VisionSteerController(double distance, double e_target, double e_align) {
+void DriveTrain::VisionSteerController(double angle, double error, double distance) {
     // NOTE: Controlled updated to v3 by Jacob Krucinski on 3/03/19
 
     // Before we do anything, make sure to grab all controller gains from SmartDashboard
@@ -473,7 +473,7 @@ void DriveTrain::VisionSteerController(double distance, double e_target, double 
 
     double omega_temp;
     if (distance > stop_turning_distance) {    // distance units are in ft
-        omega_temp = kP_Omega * e_target + kP_Align * e_align;
+        omega_temp = kP_Omega * error + kP_Align * angle;
     }
     else {
         omega_temp = 0;
