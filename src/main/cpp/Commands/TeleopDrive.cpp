@@ -43,6 +43,10 @@ void TeleopDrive::Initialize() {
  */
 void TeleopDrive::Execute()
 {
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    table->GetEntry("automove").SetBoolean(false);
+
     double xAxis = Robot::oi->getDriverJoystick()->GetX();
     double yAxis = Robot::oi->getDriverJoystick()->GetY();
 
