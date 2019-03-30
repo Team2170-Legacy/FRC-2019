@@ -95,8 +95,8 @@ OI::OI() {
       joystickButtonOuttake->WhileHeld(new TeleopOuttake());
       joystickButtonIntake.reset(new frc::JoystickButton(operatorJoystick.get(), 1));
       joystickButtonIntake->WhileHeld(new TeleopIntake());
-      joystickButtonRaiseRobot.reset(new frc::JoystickButton(operatorJoystick.get(), 4));
-      joystickButtonRaiseRobot->WhenPressed(new ClimbHighPlatform());
+ //     joystickButtonRaiseRobot.reset(new frc::JoystickButton(operatorJoystick.get(), 4));
+ //     joystickButtonRaiseRobot->WhenPressed(new ClimbHighPlatform());
    }
    else {
       printf("Intake Buttons Bypassed\n");
