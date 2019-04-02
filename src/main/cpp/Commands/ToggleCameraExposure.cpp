@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Commands/ToggleCameraExposure.h"
-bool toggle = true;
+bool toggle = false;
 const double FOR_DRIVE = 40.0;
 const double FOR_VISION = 15.0;
 
@@ -23,18 +23,24 @@ ToggleCameraExposure::ToggleCameraExposure() {
  * @param FOR_VISION = 0.0
  */
 void ToggleCameraExposure::Initialize() {
-    if (toggle) {
-        auto inst = nt::NetworkTableInstance::GetDefault();
-        auto table = inst.GetTable("VisionTable");
-        table->GetEntry("exposure").SetDouble(FOR_DRIVE);
+    // OLD code
+    // if (toggle) {
+    //     auto inst = nt::NetworkTableInstance::GetDefault();
+    //     auto table = inst.GetTable("VisionTable");
+    //     table->GetEntry("vt_exposure_flag").SetDouble(toggle);
 
-        toggle = !toggle;
-    }
-    else {
-        auto inst = nt::NetworkTableInstance::GetDefault();
-        auto table = inst.GetTable("VisionTable");
-        table->GetEntry("exposure").SetDouble(FOR_VISION);  
+    //     toggle = !toggle;
+    // }
+    // else {
+    //     auto inst = nt::NetworkTableInstance::GetDefault();
+    //     auto table = inst.GetTable("VisionTable");
+    //     table->GetEntry("vt_exposure_flag").SetDouble(toggle);  
 
-        toggle = !toggle;
-    }
+    //     toggle = !toggle;
+    // }
+
+    auto inst = nt::NetworkTableInstance::GetDefault();
+    auto table = inst.GetTable("VisionTable");
+    table->GetEntry("vt_exposure_flag").SetDouble(toggle);
+    toggle = !toggle;
 }

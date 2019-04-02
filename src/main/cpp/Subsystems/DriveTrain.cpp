@@ -464,7 +464,7 @@ void DriveTrain::VisionSteerController(double angle, double error, double distan
     //***Kp_align = -1;  % needs NEGATIVE since we define the alignment error as e_h_pix_L_R, L - R heights!
     //   Positive omega means robot turns to the LEFT
     double ref_distance =  3;  // [ft] distance where gain scaling is 1.0
-    double kP_Align = kP_Align_Master * (distance / ref_distance); 
+    double kP_Align = kP_Align_Master * std::pow((distance / ref_distance), 2); 
 //    double kP_Align = kP_Align_Master;
 
     // Angle
