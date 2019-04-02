@@ -25,6 +25,8 @@
 #include "Commands/PlaceHatch.h"
 #include "Commands/TeleopDrive.h"
 #include "Commands/TeleopElevator.h"
+#include "Commands/TeleopElevatorOverrideUp.h"
+#include "Commands/TeleopElevatorOverrideDown.h"
 #include "Commands/TeleopIntake.h"
 #include "Commands/TeleopOuttake.h"
 #include "Commands/VisionDrive.h"
@@ -86,6 +88,11 @@ OI::OI() {
 //   joystickDriverButtonForward->WhenPressed(new DriveStraightDistance(2.0));
    joystickDriverButtonExposureToggle.reset(new frc::JoystickButton(driverJoystick.get(), 3));
    joystickDriverButtonExposureToggle->WhenPressed(new ToggleCameraExposure());
+
+   driverElevatorOverrideUP.reset(new frc::JoystickButton(driverJoystick.get(), 6));
+   driverElevatorOverrideUP->WhileHeld(new TeleopElevatorOverrideUp());
+   driverElevatorOverrideDOWN.reset(new frc::JoystickButton(driverJoystick.get(), 4));
+   driverElevatorOverrideDOWN->WhileHeld(new TeleopElevatorOverrideDown());
 
 
    if (!Robot::IsPracticeBot()) {

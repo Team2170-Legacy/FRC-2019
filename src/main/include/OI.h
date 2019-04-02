@@ -41,6 +41,9 @@ private:
 	std::shared_ptr<frc::JoystickButton> joystickDriverButtonForward;
 	std::shared_ptr<frc::JoystickButton> joystickDriverButtonExposureToggle;
 
+	std::shared_ptr<frc::JoystickButton> driverElevatorOverrideUP;
+	std::shared_ptr<frc::JoystickButton> driverElevatorOverrideDOWN;
+
 public:
 	OI();
 
