@@ -465,6 +465,7 @@ void DriveTrain::VisionSteerController(double angle, double error, double distan
     //   Positive omega means robot turns to the LEFT
     double ref_distance =  3;  // [ft] distance where gain scaling is 1.0
     double kP_Align = kP_Align_Master * (distance / ref_distance); 
+//    double kP_Align = kP_Align_Master;
 
     // Angle
 

@@ -54,7 +54,7 @@ void VisionDrive::Execute() {
     double fl_error = getFloorLineError();
     double vt_error = getVisionError();
 
-    bool usingVT = false;
+    bool usingVT = true;
     if (usingVT) {      // True: Steering using vision target
         Robot::driveTrain->VisionSteerController(vt_angle, vt_error, vt_distance);
     }
