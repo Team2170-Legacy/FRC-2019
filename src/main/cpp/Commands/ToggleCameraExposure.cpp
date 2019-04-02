@@ -41,6 +41,6 @@ void ToggleCameraExposure::Initialize() {
 
     auto inst = nt::NetworkTableInstance::GetDefault();
     auto table = inst.GetTable("VisionTable");
-    table->GetEntry("vt_exposure_flag").SetDouble(toggle);
+    table->GetEntry("vt_exposure_flag").SetBoolean(toggle);
     toggle = !toggle;
 }
