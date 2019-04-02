@@ -44,6 +44,12 @@ private:
 	std::shared_ptr<frc::JoystickButton> driverElevatorOverrideUP;
 	std::shared_ptr<frc::JoystickButton> driverElevatorOverrideDOWN;
 
+	std::shared_ptr<frc::JoystickButton> operatorDriverOverrideForward;
+	std::shared_ptr<frc::JoystickButton> operatorDriverOverrideReverse;
+	std::shared_ptr<frc::JoystickButton> operatorDriverOverrideTR;
+	std::shared_ptr<frc::JoystickButton> operatorDriverOverrideTL; 
+	//four buttons that move the robot at constant velocity. 
+
 public:
 	OI();
 
