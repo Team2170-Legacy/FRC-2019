@@ -89,10 +89,12 @@ OI::OI() {
    joystickDriverButtonExposureToggle.reset(new frc::JoystickButton(driverJoystick.get(), 3));
    joystickDriverButtonExposureToggle->WhenPressed(new ToggleCameraExposure());
 
-   driverElevatorOverrideUP.reset(new frc::JoystickButton(driverJoystick.get(), 6));
-   driverElevatorOverrideUP->WhileHeld(new TeleopElevatorOverrideUp());
+// override buttons for when we lose xbox controller mid match. Driver can get full control
+// of robot. 2 new commands created for these buttons. 
+   driverElevatorOverrideUP.reset(new frc::JoystickButton(driverJoystick.get(), 6)); 
+   driverElevatorOverrideUP->WhileHeld(new TeleopElevatorOverrideUp()); // override command 1
    driverElevatorOverrideDOWN.reset(new frc::JoystickButton(driverJoystick.get(), 4));
-   driverElevatorOverrideDOWN->WhileHeld(new TeleopElevatorOverrideDown());
+   driverElevatorOverrideDOWN->WhileHeld(new TeleopElevatorOverrideDown()); // override command 2
 
 
    if (!Robot::IsPracticeBot()) {
