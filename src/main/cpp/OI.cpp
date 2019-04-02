@@ -103,13 +103,13 @@ OI::OI() {
 //operator xbox controller gets full control of the robot when the driver stick goes out. 
 // 4 specific commands calling velocity arcade method in drivetrain. 
    operatorDriverOverrideForward.reset(new frc::JoystickButton(operatorJoystick.get(), 6));
-   operatorDriverOverrideForward->WhileHeld(new overrideDriveForward());
+   operatorDriverOverrideForward->WhileHeld(new overrideDriveForward()); //override command 1
    operatorDriverOverrideReverse.reset(new frc::JoystickButton(operatorJoystick.get(), 5));
-   operatorDriverOverrideReverse->WhileHeld(new overrideDriveBack());
+   operatorDriverOverrideReverse->WhileHeld(new overrideDriveBack()); // override command 2
    operatorDriverOverrideTR.reset(new frc::JoystickButton(operatorJoystick.get(), 8));
-   operatorDriverOverrideTR->WhileHeld(new overrideDriveTR());
+   operatorDriverOverrideTR->WhileHeld(new overrideDriveTR()); // override command 3
    operatorDriverOverrideTL.reset(new frc::JoystickButton(operatorJoystick.get(), 7));
-   operatorDriverOverrideTL->WhileHeld(new overrideDriveTL());
+   operatorDriverOverrideTL->WhileHeld(new overrideDriveTL()); // override command 4
 
 
    if (!Robot::IsPracticeBot()) {
