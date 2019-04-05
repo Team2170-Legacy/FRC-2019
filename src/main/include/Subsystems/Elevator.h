@@ -22,8 +22,8 @@
 #define INNER_MAX_RPM 18730
 #define INNNER_GEAR_RATIO 49.0
 #define INNER_SPROCKET_PITCH 1.432
-#define INNER_MAGIC_VELOCITY 2457			// 27"/sec = 2.7"/100 msec = .6 rev/100 msec = 2457 cnts/100 msec
-#define INNER_MAGIC_ACCEL	(INNER_MAGIC_VELOCITY * 3)		// accel in terms of cnts/100msec / second
+#define INNER_MAGIC_VELOCITY 2000			// 27"/sec = 2.7"/100 msec = .6 rev/100 msec = 2457 cnts/100 msec
+#define INNER_MAGIC_ACCEL	(INNER_MAGIC_VELOCITY * 2)		// accel in terms of cnts/100msec / second
 
 #define OUTER_MAX_RPM 5676
 #define OUTER_GEAR_RATIO 14.2

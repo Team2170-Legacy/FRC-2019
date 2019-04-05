@@ -19,6 +19,7 @@ void DriveStraightDistance::Initialize() {
   Robot::driveTrain->ZeroPosition();
   mSavedSpeed = Robot::driveTrain->GetMaxVelocity();
   Robot::driveTrain->SetMaxVelocity(3.0);
+  SetTimeout(mDistance / 3.0 + 10.0);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -29,7 +30,8 @@ void DriveStraightDistance::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveStraightDistance::IsFinished() { 
-  return (fabs(Robot::driveTrain->GetPosition() - mDistance) < 0.5);
+  return ((fabs(Robot::driveTrain->GetPosition() - mDistance) < 0.5) ||
+            IsTimedOut());
 }
 
 // Called once after isFinished returns true

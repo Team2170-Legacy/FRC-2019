@@ -124,6 +124,7 @@ void DriveTrain::Periodic() {
     // Put code here to be run every loop
     differentialDrive->FeedWatchdog();
     frc::SmartDashboard::PutNumber("Drive Velocity", encoderControllerL->GetVelocity());
+    frc::SmartDashboard::PutNumber("Drive Position", encoderControllerL->GetPosition());
 
 }
 

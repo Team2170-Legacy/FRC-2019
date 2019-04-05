@@ -11,6 +11,8 @@ RaiseRobot::RaiseRobot() : frc::Command() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
 	Requires(Robot::elevator.get());
+  mRearCmd = Robot::elevator->kRearLiftPos;
+  mFwdCmd = Robot::elevator->kFwdLiftPos;
 }
 
 /**
@@ -19,18 +21,14 @@ RaiseRobot::RaiseRobot() : frc::Command() {
  * Grab kRearLiftPos and kFwdLiftPos from Elevator class.
  */
 RaiseRobot::RaiseRobot(double fwd, double rear) : frc::Command() {
-Requires(Robot::elevator.get());
-bCustomMove = true;         // TODO fix this yuckieness
-mRearCmd = rear;
-mFwdCmd = fwd;
+  Requires(Robot::elevator.get());
+  bCustomMove = true;         // TODO fix this yuckieness
+  mRearCmd = rear;
+  mFwdCmd = fwd;
 }
 // Called just before this Command runs the first time
 void RaiseRobot::Initialize() {
   Robot::elevator->RigForClimb();
-  if (!bCustomMove) {
-    mRearCmd = Robot::elevator->kRearLiftPos;
-    mFwdCmd = Robot::elevator->kFwdLiftPos;
-  }
 }
 
 /**

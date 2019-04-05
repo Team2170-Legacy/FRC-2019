@@ -11,6 +11,7 @@
 #include "Commands/ElevatorOuterPos.h"
 #include "Commands/ElevatorRearPos.h"
 #include "Commands/IntakeUp.h"
+#include "Commands/IntakeDown.h"
 #include "Commands/DriveStraightDistance.h"
 
 ClimbHighPlatform::ClimbHighPlatform() {
@@ -33,15 +34,14 @@ ClimbHighPlatform::ClimbHighPlatform() {
   AddSequential(new IntakeUp());
   AddSequential(new ElevatorInnerPos(25.0, false));
   AddSequential(new ElevatorOuterPos(0.0, false));
-  AddSequential(new frc::PrintCommand("Raise Robot"));
+  AddSequential(new frc::PrintCommand("RAISE"));
   AddSequential(new RaiseRobot());
-  AddSequential(new frc::PrintCommand("WAIT"));
-  AddSequential(new frc::WaitCommand(1.0));
+  AddSequential(new IntakeDown());
   AddSequential(new frc::PrintCommand("CREEP"));
   AddSequential(new ElevatorInnerPos(37, false));    // creep forward
   AddSequential(new frc::PrintCommand("LOWER"));
   AddSequential(new ElevatorOuterPos(3.0, false));
-  AddSequential(new DriveStraightDistance(2.0));    // 24" forward
-  AddSequential(new ElevatorRearPos(0.0, false));
+  AddSequential(new DriveStraightDistance(1.25));    // 16" forward
+  AddParallel(new ElevatorRearPos(0.0, false));
   AddSequential(new DriveStraightDistance(0.75));    // 8" forward
 }

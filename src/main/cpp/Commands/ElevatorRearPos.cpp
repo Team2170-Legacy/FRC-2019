@@ -37,7 +37,7 @@ ElevatorRearPos::ElevatorRearPos(double position, bool instant): frc::Command() 
  * @brief Called just before this Command runs the first time
  */
 void ElevatorRearPos::Initialize() {
-
+    SetTimeout(5.0);
 }
 
 /**
@@ -65,6 +65,9 @@ bool ElevatorRearPos::IsFinished() {
     }
     else if (Robot::elevator->RearAtPosition())
     {
+        retVal = true;
+    }
+    else if (IsTimedOut()) {
         retVal = true;
     }
     return retVal;

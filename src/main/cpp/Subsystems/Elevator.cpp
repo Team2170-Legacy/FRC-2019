@@ -476,7 +476,7 @@ void Elevator::UpdateDisabledElevators() {
 }
 
 void Elevator::RigForClimb() {
-   talonInnerFront->ConfigMotionCruiseVelocity(INNER_MAGIC_VELOCITY / 3.0);
-   talonInnerFront->ConfigMotionAcceleration(INNER_MAGIC_ACCEL / 3.0);
+   talonInnerFront->ConfigMotionCruiseVelocity(INNER_MAGIC_VELOCITY / 4.0);
+   talonInnerFront->ConfigMotionAcceleration(INNER_MAGIC_ACCEL / 4.0);
    pidOuter->SetOutputRange(0.5 * kMinOutput, 0.5 * kMaxOutput);
 }
