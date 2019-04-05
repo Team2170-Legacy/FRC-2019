@@ -429,7 +429,7 @@ double DriveTrain::GetVelocity() {
  * @param h_pix_L   (height [pixels] of left vision target)
  * @param h_pix_R   (height [pixels] of left vision target)
  */
-void DriveTrain::VisionSteerController(double distance, double angle, double h_pix_L, double h_pix_R) {
+void DriveTrain::VisionSteerController(double angle, double error, double distance) {
     // NOTE: Controlled updated to v3 by Jacob Krucinski on 3/03/19
 
     // Before we do anything, make sure to grab all controller gains from SmartDashboard
@@ -465,19 +465,17 @@ void DriveTrain::VisionSteerController(double distance, double angle, double h_p
     //***Kp_align = -1;  % needs NEGATIVE since we define the alignment error as e_h_pix_L_R, L - R heights!
     //   Positive omega means robot turns to the LEFT
     double ref_distance =  3;  // [ft] distance where gain scaling is 1.0
-    double kP_Align = kP_Align_Master * (distance / ref_distance); 
+    double kP_Align = kP_Align_Master * std::pow((distance / ref_distance), 2); 
+//    double kP_Align = kP_Align_Master;
 
     // Angle
 
     double stop_turning_distance   = 1;    // [ft]  distance when steering control stops
     double start_cruising_distance = 1;    // [ft]  distance when velocity P-control turns off and cruising at constant velocity starts
 
-    // Error for target heights
-    double e_h_pix_L_R = h_pix_L - h_pix_R;
-
     double omega_temp;
     if (distance > stop_turning_distance) {    // distance units are in ft
-        omega_temp = kP_Omega * angle + kP_Align * e_h_pix_L_R;
+        omega_temp = kP_Omega * error + kP_Align * angle;
     }
     else {
         omega_temp = 0;

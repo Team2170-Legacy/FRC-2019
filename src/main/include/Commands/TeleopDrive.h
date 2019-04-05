@@ -15,6 +15,9 @@
 
 #include "frc/commands/Subsystem.h"
 #include "Robot.h"
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableEntry.h"
+#include "networktables/NetworkTableInstance.h"
 
 /**
  *
