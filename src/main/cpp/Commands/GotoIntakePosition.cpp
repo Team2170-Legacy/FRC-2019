@@ -46,5 +46,6 @@ GotoIntakePosition::GotoIntakePosition() {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
   AddSequential(new IntakeDown());
-  AddSequential(new ElevatorInnerOuterPos(Robot::elevator->kInnerHome, Robot::elevator->kOuterHome));    // 0.5" off ground
+//  AddSequential(new ElevatorInnerOuterPos(Robot::elevator->kInnerHome, Robot::elevator->kOuterHome));    // 0.5" off ground
+  AddSequential(new ElevatorInnerOuterPos(Robot::elevator->kInnerHome, 2.0));    // 0.5" off ground
 }

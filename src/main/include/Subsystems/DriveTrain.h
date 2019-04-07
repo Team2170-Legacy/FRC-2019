@@ -76,6 +76,7 @@ public:
 	void ClosedLoopVelocityControl(double speed);
 	void TankDriveVelocityError(double velocity, double error);
 	void SmartMotionDrive(double distance);
+	void SmartMotionVelocity(double vFPS);
 	double GetPosition() { return encoderControllerL->GetPosition();}
 	double GetVelocity();
 	void SetLEDOn(bool LEDOn);
@@ -93,6 +94,20 @@ public:
 		pidControllerL->SetSmartMotionMaxVelocity(fps);
     	pidControllerR->SetSmartMotionMaxVelocity(fps);
 	}
+	void SetMaxVelocity() {
+		pidControllerL->SetSmartMotionMaxVelocity(maxFeetPerSec);
+    	pidControllerR->SetSmartMotionMaxVelocity(maxFeetPerSec);
+	}
+
+	void SetMaxAccel(double accel) {
+		pidControllerL->SetSmartMotionMaxAccel(accel);
+    	pidControllerR->SetSmartMotionMaxAccel(accel);
+	}
+	void SetMaxAccel() {
+		pidControllerL->SetSmartMotionMaxAccel(maxAccelPerSec);
+    	pidControllerR->SetSmartMotionMaxAccel(maxAccelPerSec);
+	}
+
 	double GetMaxVelocity() { return pidControllerL->GetSmartMotionMaxVelocity();}
 };
 

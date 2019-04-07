@@ -14,6 +14,7 @@
 #include "Commands/IntakeUp.h"
 #include "Commands/IntakeDown.h"
 #include "Commands/DriveStraightDistance.h"
+#include "Commands/DriveStraightVelocity.h"
 
 ClimbLowPlatform::ClimbLowPlatform() {
   // Add Commands here:
@@ -39,10 +40,11 @@ ClimbLowPlatform::ClimbLowPlatform() {
   AddSequential(new RaiseRobot(-8.0, -9.0));
   AddSequential(new IntakeDown());
   AddSequential(new frc::PrintCommand("CREEP"));
-  AddSequential(new ElevatorInnerPos(37, false));    // creep forward
+  AddSequential(new ElevatorInnerPos(23.0, false));    // creep forward
   AddSequential(new frc::PrintCommand("LOWER"));
   AddSequential(new ElevatorOuterPos(3.0, false));
   AddSequential(new DriveStraightDistance(1.25));    // 16" forward
   AddSequential(new ElevatorRearPos(0.0, false));
-  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
+//  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
+  AddSequential(new DriveStraightVelocity(2.0, 0.75));    // 8" forward
 }

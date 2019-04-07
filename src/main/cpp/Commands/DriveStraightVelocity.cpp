@@ -5,44 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Commands/DriveStraightDistance.h"
+#include "Commands/DriveStraightVelocity.h"
 #define MAXV 1.0
 #define MAXA 2.0
 #define STOP_DISTANCE (2.0/12.0)
 
-DriveStraightDistance::DriveStraightDistance(double distance) : frc::Command() {
+DriveStraightVelocity::DriveStraightVelocity(double velocity, double distance) : frc::Command() {
   // Use Requires() here to declare subsystem dependencies
   // eg. Requires(Robot::chassis.get());
   Requires(Robot::driveTrain.get());
   mDistance = distance;
+  mVelocity = velocity;
 }
 
 // Called just before this Command runs the first time
-void DriveStraightDistance::Initialize() {
+void DriveStraightVelocity::Initialize() {
   Robot::driveTrain->ZeroPosition();
   Robot::driveTrain->SetMaxVelocity(MAXV);
   Robot::driveTrain->SetMaxAccel(MAXA);
-  SetTimeout(mDistance / MAXV + 10.0);
+  Robot::driveTrain->SmartMotionVelocity(mVelocity);
+  SetTimeout(mDistance / mVelocity);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void DriveStraightDistance::Execute() {
-  Robot::driveTrain->SmartMotionDrive(mDistance);
+void DriveStraightVelocity::Execute() {
   frc::SmartDashboard::PutNumber("Drive Position", Robot::driveTrain->GetPosition());
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool DriveStraightDistance::IsFinished() { 
+bool DriveStraightVelocity::IsFinished() { 
   return ((fabs(Robot::driveTrain->GetPosition() - mDistance) < STOP_DISTANCE) ||
             IsTimedOut());
 }
 
 // Called once after isFinished returns true
-void DriveStraightDistance::End() {
+void DriveStraightVelocity::End() {
+  Robot::driveTrain->SmartMotionVelocity(0.0);
   Robot::driveTrain->SetMaxVelocity();
   Robot::driveTrain->SetMaxAccel();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void DriveStraightDistance::Interrupted() {}
+void DriveStraightVelocity::Interrupted() { End(); }

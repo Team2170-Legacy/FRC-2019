@@ -43,6 +43,10 @@
 #include "Commands/ClimbLowPlatform.h"
 #include "Commands/DriveStraightDistance.h"
 #include "Commands/ElevatorInnerOuterPos.h"
+#include "Commands/HatchL1.h"
+#include "Commands/HatchL2.h"
+#include "Commands/HatchL3.h"
+
 
 /**
  * @brief Construct a new OI::OI object
@@ -64,12 +68,10 @@ OI::OI() {
       frc::SmartDashboard::PutData("Cargo L2", new ElevatorInnerPos(Robot::elevator->kCargoL2, false));
     }
     else {
-      frc::SmartDashboard::PutData("Cargo L3", new ElevatorInnerOuterPos(Robot::elevator->kCargoL3, Robot::elevator->kHatchL2+3.0));
-      frc::SmartDashboard::PutData("Cargo L2", new ElevatorInnerOuterPos(Robot::elevator->kCargoL2, Robot::elevator->kHatchL2));
-      frc::SmartDashboard::PutData("Cargo L1", new ElevatorInnerOuterPos(Robot::elevator->kCargoL1, Robot::elevator->kOuterHome));
-      frc::SmartDashboard::PutData("Hatch L3", new ElevatorInnerOuterPos(Robot::elevator->kHatchL3, Robot::elevator->kHatchL2));
-      frc::SmartDashboard::PutData("Hatch L2", new ElevatorInnerOuterPos(Robot::elevator->kInnerHome+2, Robot::elevator->kHatchL2));
-      frc::SmartDashboard::PutData("Hatch L1", new ElevatorInnerOuterPos(Robot::elevator->kHatchL1, Robot::elevator->kOuterHome));
+      frc::SmartDashboard::PutData("Hatch L3", new HatchL3());
+      frc::SmartDashboard::PutData("Hatch L2", new HatchL2());
+      frc::SmartDashboard::PutData("Hatch L1", new HatchL1());
+      frc::SmartDashboard::PutData("DEFENSE", new ElevatorInnerOuterPos(0.5, 2.0));
 
       frc::SmartDashboard::PutData("Climb High", new ClimbHighPlatform());
       frc::SmartDashboard::PutData("Climb Low", new ClimbLowPlatform());
@@ -88,8 +90,6 @@ OI::OI() {
    joystickDriverButtonHatchDrop->WhenPressed(new PlaceHatch());
 	joystickDriverButtonVisionLock.reset(new frc::JoystickButton(driverJoystick.get(), 2));
    joystickDriverButtonVisionLock->WhileHeld(new VisionDrive());
-//	joystickDriverButtonForward.reset(new frc::JoystickButton(driverJoystick.get(), 3));
-//   joystickDriverButtonForward->WhenPressed(new DriveStraightDistance(2.0));
    joystickDriverButtonExposureToggle.reset(new frc::JoystickButton(driverJoystick.get(), 3));
    joystickDriverButtonExposureToggle->WhenPressed(new ToggleCameraExposure());
 
@@ -114,13 +114,11 @@ OI::OI() {
 
    if (!Robot::IsPracticeBot()) {
       joystickButtonToggleIntake.reset(new frc::JoystickButton(operatorJoystick.get(), 3));
-      joystickButtonToggleIntake->WhenPressed(new IntakeToggle());
+      joystickButtonToggleIntake->WhenPressed(new HatchL1());
       joystickButtonOuttake.reset(new frc::JoystickButton(operatorJoystick.get(), 2));
-      joystickButtonOuttake->WhileHeld(new TeleopOuttake());
+      joystickButtonOuttake->WhenPressed(new HatchL2());
       joystickButtonIntake.reset(new frc::JoystickButton(operatorJoystick.get(), 1));
-      joystickButtonIntake->WhileHeld(new TeleopIntake());
- //     joystickButtonRaiseRobot.reset(new frc::JoystickButton(operatorJoystick.get(), 4));
- //     joystickButtonRaiseRobot->WhenPressed(new ClimbHighPlatform());
+      joystickButtonIntake->WhenPressed(new HatchL3());
    }
    else {
       printf("Intake Buttons Bypassed\n");

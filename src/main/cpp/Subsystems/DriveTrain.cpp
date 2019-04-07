@@ -542,6 +542,16 @@ void DriveTrain::SmartMotionDrive(double distance) {
 }
 
 /**
+ * @brief Go to a certain position in closed-loop mode using smart motion.
+ * 
+ * @param distance 
+ */
+void DriveTrain::SmartMotionVelocity(double vFPS) {
+    pidControllerL->SetReference(vFPS, rev::ControlType::kSmartVelocity);  
+    pidControllerR->SetReference(-vFPS, rev::ControlType::kSmartVelocity);  
+}
+
+/**
  * @brief Set LED state of Spike Relay
  * 
  * @param LEDOn 

@@ -74,12 +74,6 @@ private:
 
 	const double kMaxOutput = 1, kMinOutput = -1;
 
-	const double kMaxInnerPos;
-	const double kMinInnerPos;
-	const double kMaxOuterPos;
-	const double kMinOuterPos;
-	const double kMaxRearPos;
-	const double kMinRearPos;
 	std::shared_ptr<rev::CANSparkMax> sparkMaxOuter;
 	std::shared_ptr<rev::CANEncoder> sparkMaxOuterEncoder;
 	std::shared_ptr<rev::CANPIDController> pidOuter;
@@ -117,6 +111,12 @@ public:
 	const double kHatchReleasePos;
 	const double kRearLiftPos;
 	const double kFwdLiftPos;
+	const double kMaxInnerPos;
+	const double kMinInnerPos;
+	const double kMaxOuterPos;
+	const double kMinOuterPos;
+	const double kMaxRearPos;
+	const double kMinRearPos;
 	
 	Elevator();
 	void InitDefaultCommand() override;
