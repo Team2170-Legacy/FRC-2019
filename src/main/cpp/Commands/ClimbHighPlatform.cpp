@@ -13,6 +13,7 @@
 #include "Commands/IntakeUp.h"
 #include "Commands/IntakeDown.h"
 #include "Commands/DriveStraightDistance.h"
+#include "Commands/DriveStraightVelocity.h"
 
 ClimbHighPlatform::ClimbHighPlatform() {
   // Add Commands here:
@@ -31,7 +32,7 @@ ClimbHighPlatform::ClimbHighPlatform() {
   // e.g. if Command1 requires chassis, and Command2 requires arm,
   // a CommandGroup containing them would require both the chassis and the
   // arm.
-  AddSequential(new IntakeUp());
+  //AddSequential(new IntakeUp());
   AddSequential(new ElevatorInnerPos(25.0, false));
   AddSequential(new ElevatorOuterPos(0.0, false));
   AddSequential(new frc::PrintCommand("RAISE"));
@@ -41,7 +42,7 @@ ClimbHighPlatform::ClimbHighPlatform() {
   AddSequential(new ElevatorInnerPos(37, false));    // creep forward
   AddSequential(new frc::PrintCommand("LOWER"));
   AddSequential(new ElevatorOuterPos(3.0, false));
-  AddSequential(new DriveStraightDistance(1.25));    // 16" forward
-  AddParallel(new ElevatorRearPos(0.0, false));
-  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
+  AddSequential(new DriveStraightDistance(1.0));    // 16" forward
+  AddSequential(new ElevatorRearPos(0.0, false));
+  AddSequential(new DriveStraightDistance(1.5));    // 8" forward
 }

@@ -6,8 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Commands/DriveStraightVelocity.h"
-#define MAXV 1.0
-#define MAXA 2.0
+#define MAXV 3.0
+#define MAXA 3.0
 #define STOP_DISTANCE (2.0/12.0)
 
 DriveStraightVelocity::DriveStraightVelocity(double velocity, double distance) : frc::Command() {
@@ -29,6 +29,7 @@ void DriveStraightVelocity::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveStraightVelocity::Execute() {
+  Robot::driveTrain->SmartMotionVelocity(mVelocity);
   frc::SmartDashboard::PutNumber("Drive Position", Robot::driveTrain->GetPosition());
 }
 

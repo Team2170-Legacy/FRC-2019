@@ -33,7 +33,7 @@ ClimbLowPlatform::ClimbLowPlatform() {
   // e.g. if Command1 requires chassis, and Command2 requires arm,
   // a CommandGroup containing them would require both the chassis and the
   // arm.
-  AddSequential(new IntakeUp());
+  //AddSequential(new IntakeUp());
   AddSequential(new ElevatorInnerPos(15.0, false));
   AddSequential(new ElevatorOuterPos(0.0, false));
   AddSequential(new frc::PrintCommand("Raise Robot Low"));
@@ -45,6 +45,6 @@ ClimbLowPlatform::ClimbLowPlatform() {
   AddSequential(new ElevatorOuterPos(3.0, false));
   AddSequential(new DriveStraightDistance(1.25));    // 16" forward
   AddSequential(new ElevatorRearPos(0.0, false));
-//  AddSequential(new DriveStraightDistance(0.75));    // 8" forward
-  AddSequential(new DriveStraightVelocity(2.0, 0.75));    // 8" forward
+  AddSequential(new DriveStraightDistance(1.5));    // 8" forward
+//  AddSequential(new DriveStraightVelocity(2.0, 0.75));    // 8" forward
 }

@@ -6,8 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Commands/DriveStraightDistance.h"
-#define MAXV 1.0
-#define MAXA 2.0
+#define MAXV 2.0
+#define MAXA 3.0
 #define STOP_DISTANCE (2.0/12.0)
 
 DriveStraightDistance::DriveStraightDistance(double distance) : frc::Command() {
